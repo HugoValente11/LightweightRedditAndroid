@@ -1,10 +1,10 @@
 
-package com.example.android.models.Post;
+package com.example.android.redditapp.models.Post;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.example.android.models.Post.Child;
+import com.example.android.redditapp.models.Post.Child;
 
 public class Data {
 
@@ -16,7 +16,7 @@ public class Data {
     private Object dist;
     @SerializedName("children")
     @Expose
-    private List<com.example.android.models.Post.Child> children = null;
+    private List<Child> children = null;
     @SerializedName("after")
     @Expose
     private Object after;
@@ -40,7 +40,7 @@ public class Data {
         this.dist = dist;
     }
 
-    public List<com.example.android.models.Post.Child> getChildren() {
+    public List<Child> getChildren() {
         return children;
     }
 

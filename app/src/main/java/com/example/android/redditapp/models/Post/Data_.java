@@ -1,9 +1,10 @@
 
-package com.example.android.models.Post;
+package com.example.android.redditapp.models.Post;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.example.android.models.Post.Replies;
 
 public class Data_ {
 
@@ -517,11 +518,11 @@ public class Data_ {
         this.domain = domain;
     }
 
-    public MediaEmbed getMediaEmbed() {
+    public com.example.android.models.Post.MediaEmbed getMediaEmbed() {
         return mediaEmbed;
     }
 
-    public void setMediaEmbed(MediaEmbed mediaEmbed) {
+    public void setMediaEmbed(com.example.android.models.Post.MediaEmbed mediaEmbed) {
         this.mediaEmbed = mediaEmbed;
     }
 

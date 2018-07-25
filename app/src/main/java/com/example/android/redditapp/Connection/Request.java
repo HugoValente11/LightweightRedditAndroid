@@ -7,6 +7,7 @@ import android.util.Log;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.android.redditapp.models.Post.Post;
 import com.google.gson.Gson;
 
 import java.util.Arrays;
@@ -31,7 +32,7 @@ public class Request {
 
             Gson gson = new Gson();
 
-            List<com.example.android.models.Post.Post> post = Arrays.asList(gson.fromJson(response, com.example.android.models.Post.Post.class));
+            List<Post> post = Arrays.asList(gson.fromJson(response, Post.class));
 
             post.get(0).getData().getChildren().get(0).getData().getThumbnail();
 
