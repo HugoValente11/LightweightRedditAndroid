@@ -10,31 +10,35 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.android.redditapp.models.Post.Post;
 import com.google.gson.Gson;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 
 public class Request {
 
-    private Context mContext;
-    private String jsonURL;
 
-    public Request(Context context, String url) {
-        mContext = context;
-        jsonURL = url;
-    }
-
-    private void loadPost() {
+    private static String thumbnail;
+    private static String title;
 
 
-    StringRequest request = new StringRequest(com.android.volley.Request.Method.GET, jsonURL, new Response.Listener<String>() {
+    public static String loadPost(Context mContext, String url) {
+
+
+    StringRequest request = new StringRequest(com.android.volley.Request.Method.GET, url, new Response.Listener<String>() {
         @Override
         public void onResponse(String response) {
 
             Gson gson = new Gson();
 
-            List<Post> post = Arrays.asList(gson.fromJson(response, Post.class));
+            List<Post> post = Arrays.asList(gson.fromJson(response, Post[].class));
 
-            post.get(0).getData().getChildren().get(0).getData().getThumbnail();
+//            thumbnail = post.get(0).getData().getChildren().get(0).getData().getThumbnail();
+//              title = post.getData().getChildren().get(0).getData().getTitle();
+            title = post.get(0).getData().getChildren().get(0).getData().getTitle();
+
+
+
+
 
 //            if (RecipeCardsName.getRecipeCards().size() < recipeCards.size()) {
 //                RecipeCardsName.getRecipeCards().clear();
@@ -66,8 +70,10 @@ public class Request {
 
         ConnectionManager.getInstance(mContext).add(request);
 
+        return title;
 
 
 
-}
+
+    }
 }

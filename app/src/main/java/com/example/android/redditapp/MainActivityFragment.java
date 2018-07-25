@@ -10,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.android.redditapp.Connection.ConnectionManager;
+import com.example.android.redditapp.Connection.Request;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -70,7 +73,9 @@ public class MainActivityFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_main_activity, container, false);
         TextView fragmentTV = rootView.findViewById(R.id.fragment_text_view);
         fragmentTV.setText(Constants.soccerSubReddit);
-        Log.d("TAG", Constants.soccerSubReddit);
+
+        String title = Request.loadPost(getContext(), Constants.someRedditPost);
+        fragmentTV.setText(title);
 
         return rootView;
 
