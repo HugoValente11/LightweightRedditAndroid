@@ -1,9 +1,7 @@
 
-package com.example.android.models.Post;
+package com.example.android.redditapp.models.Post;
 
 import java.util.List;
-
-import com.example.android.redditapp.models.Post.Child_;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

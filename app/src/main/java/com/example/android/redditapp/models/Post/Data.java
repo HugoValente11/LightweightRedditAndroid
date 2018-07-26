@@ -4,7 +4,6 @@ package com.example.android.redditapp.models.Post;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.example.android.redditapp.models.Post.Child;
 
 public class Data {
 

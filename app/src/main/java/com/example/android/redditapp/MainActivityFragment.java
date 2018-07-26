@@ -74,8 +74,8 @@ public class MainActivityFragment extends Fragment {
         TextView fragmentTV = rootView.findViewById(R.id.fragment_text_view);
         fragmentTV.setText(Constants.soccerSubReddit);
 
-        String title = Request.loadPost(getContext(), Constants.someRedditPost);
-        fragmentTV.setText(title);
+        fragmentTV.setText(Constants.getListOfSubreddits());
+
 
         return rootView;
 

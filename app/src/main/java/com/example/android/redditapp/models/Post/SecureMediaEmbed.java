@@ -1,5 +1,5 @@
 
-package com.example.android.models.Post;
+package com.example.android.redditapp.models.Post;
 
 
 public class SecureMediaEmbed {

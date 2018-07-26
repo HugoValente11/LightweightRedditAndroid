@@ -1,27 +1,34 @@
 package com.example.android.redditapp.Connection;
 
 import android.content.Context;
-import android.preference.PreferenceManager;
 import android.util.Log;
+
+import com.example.android.redditapp.Constants;
+import com.example.android.redditapp.models.Post.Post;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.example.android.redditapp.models.Post.Post;
+
+import com.example.android.redditapp.models.Subreddit.Subreddit;
 import com.google.gson.Gson;
 
-import java.lang.reflect.Array;
+
 import java.util.Arrays;
 import java.util.List;
+
 
 public class Request {
 
 
     private static String thumbnail;
     private static String title;
+    private static String description;
+    private static String listOfSubreddits;
 
 
-    public static String loadPost(Context mContext, String url) {
+
+    public static void loadPost(Context mContext, String url) {
 
 
     StringRequest request = new StringRequest(com.android.volley.Request.Method.GET, url, new Response.Listener<String>() {
@@ -30,34 +37,18 @@ public class Request {
 
             Gson gson = new Gson();
 
-            List<Post> post = Arrays.asList(gson.fromJson(response, Post[].class));
-
-//            thumbnail = post.get(0).getData().getChildren().get(0).getData().getThumbnail();
-//              title = post.getData().getChildren().get(0).getData().getTitle();
-            title = post.get(0).getData().getChildren().get(0).getData().getTitle();
+            Subreddit subreddit = gson.fromJson(response, Subreddit.class);
+            StringBuilder stringBuilder = new StringBuilder();
 
 
+            for (int i = 0; i < subreddit.getData().getChildren().size(); i++) {
+                description = subreddit.getData().getChildren().get(i).getData().getDisplayName();
+                stringBuilder.append(description + "\n");
 
-
-
-//            if (RecipeCardsName.getRecipeCards().size() < recipeCards.size()) {
-//                RecipeCardsName.getRecipeCards().clear();
-//                // https://kylewbanks.com/blog/tutorial-parsing-json-on-android-using-gson-and-volley
-//                // Getting names from Gson
-//                for (GsonHandler recipeCard : recipeCards) {
-//                    Log.v("RecipeCard", recipeCard.getName() + ": " + recipeCard.getId());
-//                    Log.v("RECIPECARD", "Before adding: " + RecipeCardsName.getRecipeCards().size());
-//                    RecipeCardsName.addRecipeCards(recipeCard);
-//                    RecipeCardsName.addRecipeName(recipeCard.getName());
-//                    Log.v("RECIPECARD", "After adding: " + RecipeCardsName.getRecipeCards().size());
-//                    Log.v("RECIPECARD", "Line Breaker");
-//                }
-//            }
-
-
-
-
-
+                Log.d("SUBREDDITDESCRIPTION", description);
+        }
+           listOfSubreddits = stringBuilder.toString();
+            Constants.setListOfSubreddits(listOfSubreddits);
         }
     }
             , new Response.ErrorListener() {
@@ -70,7 +61,7 @@ public class Request {
 
         ConnectionManager.getInstance(mContext).add(request);
 
-        return title;
+
 
 
 

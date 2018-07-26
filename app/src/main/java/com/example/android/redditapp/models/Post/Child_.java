@@ -3,7 +3,6 @@ package com.example.android.redditapp.models.Post;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.example.android.models.Post.Data___;
 
 public class Child_ {
 

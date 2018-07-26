@@ -1,5 +1,5 @@
 
-package com.example.android.models.Post;
+package com.example.android.redditapp.models.Post;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -11,7 +11,7 @@ public class Replies {
     private String kind;
     @SerializedName("data")
     @Expose
-    private com.example.android.models.Post.Data__ data;
+    private Data__ data;
 
     public String getKind() {
         return kind;
@@ -21,11 +21,11 @@ public class Replies {
         this.kind = kind;
     }
 
-    public com.example.android.models.Post.Data__ getData() {
+    public Data__ getData() {
         return data;
     }
 
-    public void setData(com.example.android.models.Post.Data__ data) {
+    public void setData(Data__ data) {
         this.data = data;
     }
 

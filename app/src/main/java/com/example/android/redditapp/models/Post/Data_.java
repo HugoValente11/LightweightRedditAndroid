@@ -4,7 +4,6 @@ package com.example.android.redditapp.models.Post;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.example.android.models.Post.Replies;
 
 public class Data_ {
 
@@ -85,7 +84,7 @@ public class Data_ {
     private String domain;
     @SerializedName("media_embed")
     @Expose
-    private com.example.android.models.Post.MediaEmbed mediaEmbed;
+    private MediaEmbed mediaEmbed;
     @SerializedName("author_flair_template_id")
     @Expose
     private Object authorFlairTemplateId;
@@ -103,7 +102,7 @@ public class Data_ {
     private Object category;
     @SerializedName("secure_media_embed")
     @Expose
-    private com.example.android.models.Post.SecureMediaEmbed secureMediaEmbed;
+    private SecureMediaEmbed secureMediaEmbed;
     @SerializedName("link_flair_text")
     @Expose
     private String linkFlairText;
@@ -518,11 +517,11 @@ public class Data_ {
         this.domain = domain;
     }
 
-    public com.example.android.models.Post.MediaEmbed getMediaEmbed() {
+    public MediaEmbed getMediaEmbed() {
         return mediaEmbed;
     }
 
-    public void setMediaEmbed(com.example.android.models.Post.MediaEmbed mediaEmbed) {
+    public void setMediaEmbed(MediaEmbed mediaEmbed) {
         this.mediaEmbed = mediaEmbed;
     }
 
@@ -566,11 +565,11 @@ public class Data_ {
         this.category = category;
     }
 
-    public com.example.android.models.Post.SecureMediaEmbed getSecureMediaEmbed() {
+    public SecureMediaEmbed getSecureMediaEmbed() {
         return secureMediaEmbed;
     }
 
-    public void setSecureMediaEmbed(com.example.android.models.Post.SecureMediaEmbed secureMediaEmbed) {
+    public void setSecureMediaEmbed(SecureMediaEmbed secureMediaEmbed) {
         this.secureMediaEmbed = secureMediaEmbed;
     }
 
