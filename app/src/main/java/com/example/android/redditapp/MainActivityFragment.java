@@ -10,8 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.example.android.redditapp.Connection.ConnectionManager;
 import com.example.android.redditapp.Connection.Request;
+import com.example.android.redditapp.models.Subreddit.Subreddit;
+import com.google.gson.Gson;
+
+import static com.example.android.redditapp.Constants.listOfSubreddits;
 
 
 /**
@@ -27,6 +34,8 @@ public class MainActivityFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static String description;
+    private static TextView fragmentTV;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -71,10 +80,12 @@ public class MainActivityFragment extends Fragment {
 
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_main_activity, container, false);
-        TextView fragmentTV = rootView.findViewById(R.id.fragment_text_view);
+        fragmentTV = rootView.findViewById(R.id.fragment_text_view);
         fragmentTV.setText(Constants.soccerSubReddit);
 
         fragmentTV.setText(Constants.getListOfSubreddits());
+
+        loadPost(getContext(), Constants.soccerSubReddit);
 
 
         return rootView;
@@ -118,5 +129,46 @@ public class MainActivityFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public static String loadPost(Context mContext, String url) {
+
+
+        StringRequest request = new StringRequest(com.android.volley.Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                Gson gson = new Gson();
+
+                Subreddit subreddit = gson.fromJson(response, Subreddit.class);
+                StringBuilder stringBuilder = new StringBuilder();
+
+
+                for (int i = 0; i < subreddit.getData().getChildren().size(); i++) {
+                    description = subreddit.getData().getChildren().get(i).getData().getDisplayName();
+                    stringBuilder.append(description + "\n");
+
+                    Log.d("SUBREDDITDESCRIPTION", description);
+                }
+                listOfSubreddits = stringBuilder.toString();
+                fragmentTV.setText(listOfSubreddits
+                );
+            }
+        }
+                , new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+
+        ConnectionManager.getInstance(mContext).add(request);
+        return listOfSubreddits;
+
+
+
+
+
     }
 }

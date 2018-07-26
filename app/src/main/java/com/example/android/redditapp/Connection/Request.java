@@ -28,7 +28,7 @@ public class Request {
 
 
 
-    public static void loadPost(Context mContext, String url) {
+    public static String loadPost(Context mContext, String url) {
 
 
     StringRequest request = new StringRequest(com.android.volley.Request.Method.GET, url, new Response.Listener<String>() {
@@ -60,7 +60,7 @@ public class Request {
 
 
         ConnectionManager.getInstance(mContext).add(request);
-
+            return listOfSubreddits;
 
 
 
