@@ -1,11 +1,10 @@
 
 package com.example.android.redditapp.models.Subreddit;
 
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Subreddit {
+public class SubReddit {
 
     @SerializedName("kind")
     @Expose

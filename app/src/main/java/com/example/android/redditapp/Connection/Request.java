@@ -1,6 +1,7 @@
 package com.example.android.redditapp.Connection;
 
 import android.content.Context;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.example.android.redditapp.Constants;
@@ -10,7 +11,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
-import com.example.android.redditapp.models.Subreddit.Subreddit;
+import com.example.android.redditapp.models.Subreddit.SubReddit;
 import com.google.gson.Gson;
 
 
@@ -28,7 +29,7 @@ public class Request {
 
 
 
-    public static String loadPost(Context mContext, String url) {
+    public static String loadSubreddit(Context mContext, String url) {
 
 
     StringRequest request = new StringRequest(com.android.volley.Request.Method.GET, url, new Response.Listener<String>() {
@@ -37,7 +38,7 @@ public class Request {
 
             Gson gson = new Gson();
 
-            Subreddit subreddit = gson.fromJson(response, Subreddit.class);
+            SubReddit subreddit = gson.fromJson(response, SubReddit.class);
             StringBuilder stringBuilder = new StringBuilder();
 
 
@@ -61,6 +62,37 @@ public class Request {
 
         ConnectionManager.getInstance(mContext).add(request);
             return listOfSubreddits;
+
+
+
+
+
+    }
+
+    public static String loadPost(final Context mContext, String url) {
+
+
+        StringRequest request = new StringRequest(com.android.volley.Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                Gson gson = new Gson();
+
+                PreferenceManager.getDefaultSharedPreferences(mContext).edit().putString("JSON", response).apply();
+
+
+            }
+        }
+                , new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+
+        ConnectionManager.getInstance(mContext).add(request);
+        return listOfSubreddits;
 
 
 

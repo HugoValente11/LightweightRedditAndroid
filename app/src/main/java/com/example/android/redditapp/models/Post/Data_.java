@@ -1,6 +1,8 @@
 
 package com.example.android.redditapp.models.Post;
 
+
+
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -36,7 +38,7 @@ public class Data_ {
     private String title;
     @SerializedName("link_flair_richtext")
     @Expose
-    private List<Object> linkFlairRichtext = null;
+    private List<LinkFlairRichtext> linkFlairRichtext = null;
     @SerializedName("subreddit_name_prefixed")
     @Expose
     private String subredditNamePrefixed;
@@ -72,7 +74,7 @@ public class Data_ {
     private Double upvoteRatio;
     @SerializedName("author_flair_background_color")
     @Expose
-    private Object authorFlairBackgroundColor;
+    private String authorFlairBackgroundColor;
     @SerializedName("subreddit_type")
     @Expose
     private String subredditType;
@@ -97,6 +99,9 @@ public class Data_ {
     @SerializedName("is_reddit_media_domain")
     @Expose
     private Boolean isRedditMediaDomain;
+    @SerializedName("is_meta")
+    @Expose
+    private Boolean isMeta;
     @SerializedName("category")
     @Expose
     private Object category;
@@ -118,15 +123,13 @@ public class Data_ {
     @SerializedName("thumbnail")
     @Expose
     private String thumbnail;
-    @SerializedName("edited")
-    @Expose
-    private Boolean edited;
+
     @SerializedName("author_flair_css_class")
     @Expose
-    private Object authorFlairCssClass;
+    private String authorFlairCssClass;
     @SerializedName("author_flair_richtext")
     @Expose
-    private List<Object> authorFlairRichtext = null;
+    private List<AuthorFlairRichtext> authorFlairRichtext = null;
     @SerializedName("content_categories")
     @Expose
     private Object contentCategories;
@@ -207,7 +210,7 @@ public class Data_ {
     private Boolean locked;
     @SerializedName("author_flair_text")
     @Expose
-    private Object authorFlairText;
+    private String authorFlairText;
     @SerializedName("rte_mode")
     @Expose
     private String rteMode;
@@ -252,7 +255,7 @@ public class Data_ {
     private Boolean sendReplies;
     @SerializedName("author_flair_text_color")
     @Expose
-    private Object authorFlairTextColor;
+    private String authorFlairTextColor;
     @SerializedName("permalink")
     @Expose
     private String permalink;
@@ -389,11 +392,11 @@ public class Data_ {
         this.title = title;
     }
 
-    public List<Object> getLinkFlairRichtext() {
+    public List<LinkFlairRichtext> getLinkFlairRichtext() {
         return linkFlairRichtext;
     }
 
-    public void setLinkFlairRichtext(List<Object> linkFlairRichtext) {
+    public void setLinkFlairRichtext(List<LinkFlairRichtext> linkFlairRichtext) {
         this.linkFlairRichtext = linkFlairRichtext;
     }
 
@@ -485,11 +488,11 @@ public class Data_ {
         this.upvoteRatio = upvoteRatio;
     }
 
-    public Object getAuthorFlairBackgroundColor() {
+    public String getAuthorFlairBackgroundColor() {
         return authorFlairBackgroundColor;
     }
 
-    public void setAuthorFlairBackgroundColor(Object authorFlairBackgroundColor) {
+    public void setAuthorFlairBackgroundColor(String authorFlairBackgroundColor) {
         this.authorFlairBackgroundColor = authorFlairBackgroundColor;
     }
 
@@ -557,6 +560,14 @@ public class Data_ {
         this.isRedditMediaDomain = isRedditMediaDomain;
     }
 
+    public Boolean getIsMeta() {
+        return isMeta;
+    }
+
+    public void setIsMeta(Boolean isMeta) {
+        this.isMeta = isMeta;
+    }
+
     public Object getCategory() {
         return category;
     }
@@ -613,27 +624,19 @@ public class Data_ {
         this.thumbnail = thumbnail;
     }
 
-    public Boolean getEdited() {
-        return edited;
-    }
-
-    public void setEdited(Boolean edited) {
-        this.edited = edited;
-    }
-
-    public Object getAuthorFlairCssClass() {
+    public String getAuthorFlairCssClass() {
         return authorFlairCssClass;
     }
 
-    public void setAuthorFlairCssClass(Object authorFlairCssClass) {
+    public void setAuthorFlairCssClass(String authorFlairCssClass) {
         this.authorFlairCssClass = authorFlairCssClass;
     }
 
-    public List<Object> getAuthorFlairRichtext() {
+    public List<AuthorFlairRichtext> getAuthorFlairRichtext() {
         return authorFlairRichtext;
     }
 
-    public void setAuthorFlairRichtext(List<Object> authorFlairRichtext) {
+    public void setAuthorFlairRichtext(List<AuthorFlairRichtext> authorFlairRichtext) {
         this.authorFlairRichtext = authorFlairRichtext;
     }
 
@@ -845,11 +848,11 @@ public class Data_ {
         this.locked = locked;
     }
 
-    public Object getAuthorFlairText() {
+    public String getAuthorFlairText() {
         return authorFlairText;
     }
 
-    public void setAuthorFlairText(Object authorFlairText) {
+    public void setAuthorFlairText(String authorFlairText) {
         this.authorFlairText = authorFlairText;
     }
 
@@ -965,11 +968,11 @@ public class Data_ {
         this.sendReplies = sendReplies;
     }
 
-    public Object getAuthorFlairTextColor() {
+    public String getAuthorFlairTextColor() {
         return authorFlairTextColor;
     }
 
-    public void setAuthorFlairTextColor(Object authorFlairTextColor) {
+    public void setAuthorFlairTextColor(String authorFlairTextColor) {
         this.authorFlairTextColor = authorFlairTextColor;
     }
 

@@ -1,7 +1,6 @@
 
 package com.example.android.redditapp.models.Subreddit;
 
-
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -25,7 +24,7 @@ public class Data_ {
     private Object userFlairText;
     @SerializedName("submit_text_html")
     @Expose
-    private String submitTextHtml;
+    private Object submitTextHtml;
     @SerializedName("user_flair_position")
     @Expose
     private String userFlairPosition;
@@ -49,7 +48,7 @@ public class Data_ {
     private Boolean originalContentTagEnabled;
     @SerializedName("wiki_enabled")
     @Expose
-    private Boolean wikiEnabled;
+    private Object wikiEnabled;
     @SerializedName("banner_size")
     @Expose
     private Object bannerSize;
@@ -136,7 +135,7 @@ public class Data_ {
     private String iconImg;
     @SerializedName("header_title")
     @Expose
-    private String headerTitle;
+    private Object headerTitle;
     @SerializedName("description")
     @Expose
     private String description;
@@ -169,13 +168,13 @@ public class Data_ {
     private Object submitTextLabel;
     @SerializedName("whitelist_status")
     @Expose
-    private String whitelistStatus;
+    private Object whitelistStatus;
     @SerializedName("link_flair_position")
     @Expose
-    private String linkFlairPosition;
+    private Object linkFlairPosition;
     @SerializedName("user_flair_richtext")
     @Expose
-    private List<Object> userFlairRichtext = null;
+    private List<UserFlairRichtext> userFlairRichtext = null;
     @SerializedName("user_sr_flair_enabled")
     @Expose
     private Object userSrFlairEnabled;
@@ -211,7 +210,7 @@ public class Data_ {
     private Boolean quarantine;
     @SerializedName("wls")
     @Expose
-    private Integer wls;
+    private Object wls;
     @SerializedName("created_utc")
     @Expose
     private Double createdUtc;
@@ -298,11 +297,11 @@ public class Data_ {
         this.userFlairText = userFlairText;
     }
 
-    public String getSubmitTextHtml() {
+    public Object getSubmitTextHtml() {
         return submitTextHtml;
     }
 
-    public void setSubmitTextHtml(String submitTextHtml) {
+    public void setSubmitTextHtml(Object submitTextHtml) {
         this.submitTextHtml = submitTextHtml;
     }
 
@@ -362,11 +361,11 @@ public class Data_ {
         this.originalContentTagEnabled = originalContentTagEnabled;
     }
 
-    public Boolean getWikiEnabled() {
+    public Object getWikiEnabled() {
         return wikiEnabled;
     }
 
-    public void setWikiEnabled(Boolean wikiEnabled) {
+    public void setWikiEnabled(Object wikiEnabled) {
         this.wikiEnabled = wikiEnabled;
     }
 
@@ -594,11 +593,11 @@ public class Data_ {
         this.iconImg = iconImg;
     }
 
-    public String getHeaderTitle() {
+    public Object getHeaderTitle() {
         return headerTitle;
     }
 
-    public void setHeaderTitle(String headerTitle) {
+    public void setHeaderTitle(Object headerTitle) {
         this.headerTitle = headerTitle;
     }
 
@@ -682,27 +681,27 @@ public class Data_ {
         this.submitTextLabel = submitTextLabel;
     }
 
-    public String getWhitelistStatus() {
+    public Object getWhitelistStatus() {
         return whitelistStatus;
     }
 
-    public void setWhitelistStatus(String whitelistStatus) {
+    public void setWhitelistStatus(Object whitelistStatus) {
         this.whitelistStatus = whitelistStatus;
     }
 
-    public String getLinkFlairPosition() {
+    public Object getLinkFlairPosition() {
         return linkFlairPosition;
     }
 
-    public void setLinkFlairPosition(String linkFlairPosition) {
+    public void setLinkFlairPosition(Object linkFlairPosition) {
         this.linkFlairPosition = linkFlairPosition;
     }
 
-    public List<Object> getUserFlairRichtext() {
+    public List<UserFlairRichtext> getUserFlairRichtext() {
         return userFlairRichtext;
     }
 
-    public void setUserFlairRichtext(List<Object> userFlairRichtext) {
+    public void setUserFlairRichtext(List<UserFlairRichtext> userFlairRichtext) {
         this.userFlairRichtext = userFlairRichtext;
     }
 
@@ -794,11 +793,11 @@ public class Data_ {
         this.quarantine = quarantine;
     }
 
-    public Integer getWls() {
+    public Object getWls() {
         return wls;
     }
 
-    public void setWls(Integer wls) {
+    public void setWls(Object wls) {
         this.wls = wls;
     }
 
