@@ -23,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.android.redditapp.Connection.ConnectionManager;
 import com.example.android.redditapp.Connection.Request;
+import com.example.android.redditapp.models.Post.Child;
 import com.example.android.redditapp.models.Post.Post;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -30,6 +31,7 @@ import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -82,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENES_SUBREDDITS_KEY, Context.MODE_PRIVATE);
 
-        loadPost(this, Constants.anotherRedditPost);
+        loadPost(this, Constants.someRedditPost);
 
     }
 
@@ -117,6 +119,12 @@ public class MainActivity extends AppCompatActivity {
 
                 bodyText =  posts.get(0).getData().getChildren().get(0).getData().getSelftext();
                 bodyTextView.setText(bodyText);
+
+                List<String> comments = new ArrayList<>();
+                for (int i = 0; i< posts.get(1).getData().getChildren().size(); i++) {
+                   String comment = posts.get(1).getData().getChildren().get(i).getData().getBody();
+                    comments.add(comment);
+                }
 
                 imageURL =  posts.get(0).getData().getChildren().get(0).getData().getThumbnail();
                 if( ! TextUtils.isEmpty(imageURL)) {
