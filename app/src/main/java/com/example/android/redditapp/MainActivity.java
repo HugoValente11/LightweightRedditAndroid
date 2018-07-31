@@ -46,7 +46,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView titleTextView;
     private TextView bodyTextView;
     private TextView authorTextView;
+    private TextView subredditTextView;
     private ImageView thumbnail;
+    private String subredditText;
     private String title;
     private String bodyText;
     private String authorText;
@@ -77,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
         bodyTextView = findViewById(R.id.bodyTextView);
         thumbnail = findViewById(R.id.thumbnail);
         authorTextView = findViewById(R.id.authorTextView);
+        subredditTextView = findViewById(R.id.subredditTextView);
+
 
 
         // https://stackoverflow.com/questions/7965290/put-and-get-string-array-from-shared-preferences
@@ -89,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENES_SUBREDDITS_KEY, Context.MODE_PRIVATE);
 
-        loadPost(this, Constants.someRedditPost);
+        loadPost(this, Constants.anotherRedditPost);
 
     }
 
@@ -131,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 addPostsToDb(posts);
-
+                populateUI();
 
             }
         }
@@ -145,6 +149,29 @@ public class MainActivity extends AppCompatActivity {
 
         ConnectionManager.getInstance(mContext).add(request);
 
+
+    }
+
+    private void populateUI() {
+        Cursor mCursor = getAllPosts();
+        mCursor.moveToFirst();
+
+        subredditText = mCursor.getString(mCursor.getColumnIndex(DatabaseContract.PostsTable.SUBREDDIT));
+        subredditTextView.setText(subredditText);
+
+        authorText = mCursor.getString(mCursor.getColumnIndex(DatabaseContract.PostsTable.AUTHOR));
+        authorTextView.setText(authorText);
+
+        title = mCursor.getString(mCursor.getColumnIndex(DatabaseContract.PostsTable.TITLE));
+        titleTextView.setText(title);
+
+        bodyText = mCursor.getString(mCursor.getColumnIndex(DatabaseContract.PostsTable.SELFTEXT));
+        bodyTextView.setText(bodyText);
+
+        imageURL = mCursor.getString(mCursor.getColumnIndex(DatabaseContract.PostsTable.IMAGELINK));
+        if(!TextUtils.isEmpty(imageURL)) {
+            Picasso.get().load(imageURL).into(thumbnail);
+        }
 
     }
 

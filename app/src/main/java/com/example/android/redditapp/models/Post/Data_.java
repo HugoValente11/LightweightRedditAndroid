@@ -284,7 +284,6 @@ public class Data_ {
     @Expose
     private String linkId;
     @SerializedName("replies")
-    @Expose
     private Replies replies;
     @SerializedName("parent_id")
     @Expose
