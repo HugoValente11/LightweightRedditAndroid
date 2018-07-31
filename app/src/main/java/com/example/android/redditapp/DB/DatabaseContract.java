@@ -11,10 +11,12 @@ public class DatabaseContract {
     public static final String CONTENT_AUTHORITY = "com.example.android.redditapp";
     public static final String PATH_POSTS = "post";
     public static final String PATH_COMMENTS = "comments";
+    public static final String PATH_POSTS_COMMENTS = "comments";
 
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public static final Uri CONTENT_URI_POSTS = BASE_CONTENT_URI.buildUpon().appendPath(PATH_POSTS).build();
     public static final Uri CONTENT_URI_COMMENTS = BASE_CONTENT_URI.buildUpon().appendPath(PATH_COMMENTS).build();
+    public static final Uri CONTENT_URI_POSTS_COMMENTS = BASE_CONTENT_URI.buildUpon().appendPath(PATH_POSTS_COMMENTS).build();
 
 
     public abstract class Posts_Comments implements BaseColumns{

@@ -214,6 +214,21 @@ public class MainActivity extends AppCompatActivity {
                 cv.put(DatabaseContract.PostsTable.IMAGELINK, post.getData().getChildren().get(0).getData().getThumbnail());
 
                 Uri uri = getContentResolver().insert(DatabaseContract.CONTENT_URI_POSTS, cv);
+
+                ContentValues cv2 = new ContentValues();
+
+//                cv2.put(DatabaseContract.CommentsTable.COMMENTID, post.getData().getChildren().get(0).getData().getId());
+//                cv2.put(DatabaseContract.CommentsTable.COMMENT, post.getData().getChildren().get(0).getData().getBody());
+//                cv2.put(DatabaseContract.CommentsTable.AUTHOR, post.getData().getChildren().get(0).getData().getAuthor());
+                cv2.put(DatabaseContract.CommentsTable.COMMENTID, "test1");
+                cv2.put(DatabaseContract.CommentsTable.COMMENT, "test1");
+                cv2.put(DatabaseContract.CommentsTable.AUTHOR,"test1");
+
+                Uri uri2 = getContentResolver().insert(DatabaseContract.CONTENT_URI_COMMENTS, cv2);
+
+
+
+
                 Log.d("Uri", "Uri: " + uri);
             }
         }
