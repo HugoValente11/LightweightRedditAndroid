@@ -33,8 +33,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 //            DatabaseContract.PostsTable.SELFTEXT + TEXT_TYPE + COMMA +
             DatabaseContract.PostsTable.SELFTEXT + TEXT_TYPE + " )";
 
-//            Integer to boolean 1 is true is favorite 0 is false
-//            https://stackoverflow.com/questions/843780/store-boolean-value-in-sqlite
+
 
     // Delete TABLE SENTENCE
     public static final String DROP_MOVIE_TABLE = "DROP TABLE IF EXISTS " + DatabaseContract.PostsTable.TABLE_NAME;
