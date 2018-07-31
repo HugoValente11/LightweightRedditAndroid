@@ -24,6 +24,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.android.redditapp.MainActivity" />
         </activity>
+
+        <provider
+            android:authorities="com.example.android.redditapp"
+            android:name=".DB.DatabaseContentProvider"
+            android:exported="false"
+            />
+
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"/>
