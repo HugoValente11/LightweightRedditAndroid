@@ -116,27 +116,21 @@ public class MainActivity extends AppCompatActivity {
 
                 List<Post> posts = Arrays.asList(gson.fromJson(response, Post[].class));
 
-                title =  posts.get(0).getData().getChildren().get(0).getData().getTitle();
-                titleTextView.setText(title);
-
-                authorText =  posts.get(0).getData().getChildren().get(0).getData().getAuthor();
-                authorTextView.setText(authorText);
-
-                bodyText =  posts.get(0).getData().getChildren().get(0).getData().getSelftext();
-                bodyTextView.setText(bodyText);
-
                 List<String> comments = new ArrayList<>();
+                Log.d("TAG", "comments size: " + posts.get(1).getData().getChildren().size());
                 for (int i = 0; i< posts.get(1).getData().getChildren().size(); i++) {
                    String comment = posts.get(1).getData().getChildren().get(i).getData().getBody();
-                    comments.add(comment);
-                }
+                   if (! TextUtils.isEmpty(comment)) {
+                       comments.add(comment);
+                       Log.d("TAG",  "Comments after added to array list: " + comments.get(i));
 
-                imageURL =  posts.get(0).getData().getChildren().get(0).getData().getThumbnail();
-                if( ! TextUtils.isEmpty(imageURL)) {
-                    Picasso.get().load(imageURL).into(thumbnail);
+                   }
                 }
+                Log.d("TAG", "comments array list size: " + comments.size());
 
-                addMovieToDb(posts);
+
+
+                addPostsToDb(posts);
 
 
             }
@@ -144,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                 , new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Toast.makeText(mContext, "Ups, something went wrong...", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -154,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void addMovieToDb(List<Post> postList) {
+    private void addPostsToDb(List<Post> postList) {
 
         Cursor mCursor = getAllPosts();
 
