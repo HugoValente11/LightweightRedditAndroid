@@ -176,7 +176,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addPostsToDb(List<Post> postList) {
-
         Cursor mCursor = getAllPosts();
 
         for (Post post : postList) {
@@ -189,18 +188,17 @@ public class MainActivity extends AppCompatActivity {
 
                 mCursor.moveToFirst();
 
-                Log.d("First1", "Post Id: " + mCursor.getColumnIndex(DatabaseContract.PostsTable.POSTID));
+                String postIDFromCursor = mCursor.getString(mCursor.getColumnIndex(DatabaseContract.PostsTable.POSTID));
+                String postIDFromPostList = postList.get(0).getData().getChildren().get(0).getData().getId();
 
-                Log.d("First2", "Post Id: " + postList.get(0).getData().getChildren().get(0).getData().getId());
-
-                while (mCursor.moveToNext()) {
-
-                    String postIDFromCursor = mCursor.getString(mCursor.getColumnIndex(DatabaseContract.PostsTable.POSTID));
-                    String postIDFromPostList = post.getData().getChildren().get(0).getData().getId();
+                do{
+                    postIDFromCursor = mCursor.getString(mCursor.getColumnIndex(DatabaseContract.PostsTable.POSTID));
+                    Log.d("THIS", "thing" + postIDFromCursor);
                     if (postIDFromPostList.equals(postIDFromCursor)) {
+                        Log.d("I'm alive!", "... sort of. beep boop.");
                         isInDB = true;
                     }
-                }
+                }while ( mCursor.moveToNext() );
 
             }
 
