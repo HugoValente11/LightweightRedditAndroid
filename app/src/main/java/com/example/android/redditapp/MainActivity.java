@@ -167,10 +167,10 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("First2", "Post Id: " + postList.get(0).getData().getChildren().get(0).getData().getId());
 
                 while (mCursor.moveToNext()) {
-                    Log.d("Main1", "Post id: " + mCursor.getColumnIndex(DatabaseContract.PostsTable.POSTID));
-                    Log.d("Main2", "Post position: " + post.getData().getChildren().get(0).getData().getId());
 
-                    if (post.getData().getChildren().get(0).getData().getId().equals((mCursor.getString(mCursor.getColumnIndex(DatabaseContract.PostsTable.POSTID))))) {
+                    String postIDFromCursor = mCursor.getString(mCursor.getColumnIndex(DatabaseContract.PostsTable.POSTID));
+                    String postIDFromPostList = post.getData().getChildren().get(0).getData().getId();
+                    if (postIDFromPostList.equals(postIDFromCursor)) {
                         isInDB = true;
                     }
                 }
