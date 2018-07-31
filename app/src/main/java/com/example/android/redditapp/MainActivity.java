@@ -215,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
                 cv.put(DatabaseContract.PostsTable.SELFTEXT, post.getData().getChildren().get(0).getData().getSelftext());
                 cv.put(DatabaseContract.PostsTable.IMAGELINK, post.getData().getChildren().get(0).getData().getThumbnail());
 
-                Uri uri = getContentResolver().insert(DatabaseContract.CONTENT_URI, cv);
+                Uri uri = getContentResolver().insert(DatabaseContract.CONTENT_URI_POSTS, cv);
                 Log.d("Uri", "Uri: " + uri);
             }
         }
@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
     private Cursor getAllPosts() {
         // fazer query de todos os filmes de uma categoria
         Cursor mCursor;
-        mCursor = getContentResolver().query(DatabaseContract.CONTENT_URI, null, null, null, null);
+        mCursor = getContentResolver().query(DatabaseContract.CONTENT_URI_POSTS, null, null, null, null);
 
         String info = DatabaseUtils.dumpCursorToString(mCursor);
         Log.d("DEBUGCURSOR", info);

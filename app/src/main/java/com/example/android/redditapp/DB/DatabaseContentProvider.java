@@ -18,7 +18,11 @@ public class DatabaseContentProvider extends ContentProvider {
     // It's convention to use 100, 200, 300, etc for directories,
     // and related ints (101, 102, ..) for items in that directory.
     public static final int POSTS = 100;
+    public static final int COMMENTS = 200;
+
     public static final int POSTS_WITH_ID = 101;
+    public static final int COMMENTS_WITH_ID = 201;
+
 
     // CDeclare a static variable for the Uri matcher that you construct
     private static final UriMatcher sUriMatcher = buildUriMatcher();
@@ -40,6 +44,8 @@ public class DatabaseContentProvider extends ContentProvider {
          */
         uriMatcher.addURI(DatabaseContract.CONTENT_AUTHORITY, DatabaseContract.PATH_POSTS, POSTS);
         uriMatcher.addURI(DatabaseContract.CONTENT_AUTHORITY, DatabaseContract.PATH_POSTS + "/#", POSTS_WITH_ID);
+        uriMatcher.addURI(DatabaseContract.CONTENT_AUTHORITY, DatabaseContract.PATH_COMMENTS, COMMENTS);
+        uriMatcher.addURI(DatabaseContract.CONTENT_AUTHORITY, DatabaseContract.PATH_COMMENTS + "/#", COMMENTS_WITH_ID);
 
         return uriMatcher;
     }
@@ -105,7 +111,7 @@ public class DatabaseContentProvider extends ContentProvider {
 
                 _id = db.insert(DatabaseContract.PostsTable.TABLE_NAME, null, contentValues);
                 if (_id > 0) {
-                    returnUri = ContentUris.withAppendedId(DatabaseContract.CONTENT_URI, _id);
+                    returnUri = ContentUris.withAppendedId(DatabaseContract.CONTENT_URI_POSTS, _id);
                 } else {
                     throw new SQLException("Couldn't insert data into " + uri);
                 }

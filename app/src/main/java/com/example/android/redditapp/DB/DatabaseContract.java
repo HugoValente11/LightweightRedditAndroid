@@ -10,9 +10,13 @@ public class DatabaseContract {
 
     public static final String CONTENT_AUTHORITY = "com.example.android.redditapp";
     public static final String PATH_POSTS = "post";
+    public static final String PATH_COMMENTS = "comments";
 
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
-    public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_POSTS).build();
+    public static final Uri CONTENT_URI_POSTS = BASE_CONTENT_URI.buildUpon().appendPath(PATH_POSTS).build();
+    public static final Uri CONTENT_URI_COMMENTS = BASE_CONTENT_URI.buildUpon().appendPath(PATH_COMMENTS).build();
+
+
 
 
 
@@ -28,6 +32,15 @@ public class DatabaseContract {
         public static final String IMAGELINK = "imagelink";
         public static final String SELFTEXT = "selftext";
 
+    }
+
+    public abstract class CommentsTable implements BaseColumns{
+
+        public static final String TABLE_NAME = "comments_table";
+
+        public static final String POSTID = "postid";
+        public static final String COMMENT = "comment";
+        public static final String AUTHOR = "author";
 
     }
 }

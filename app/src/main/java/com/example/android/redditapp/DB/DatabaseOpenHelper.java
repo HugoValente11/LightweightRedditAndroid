@@ -22,31 +22,54 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
         super(context, DatabaseContract.DB_NAME, null, DATABASE_VERSION);
     }
 
-    // Create TABLE SENTENCE
-    private static final String CREATE_MOVIE_TABLE = "CREATE TABLE " +
+    @Override
+    public void onConfigure(SQLiteDatabase db) {
+        super.onConfigure(db);
+        db.setForeignKeyConstraintsEnabled(true);
+    }
+
+    // Create POST TABLE SENTENCE
+    private static final String CREATE_POST_TABLE = "CREATE TABLE " +
             DatabaseContract.PostsTable.TABLE_NAME + " (" +
             DatabaseContract.PostsTable.SUBREDDIT + TEXT_TYPE + COMMA +
             DatabaseContract.PostsTable.POSTID + TEXT_TYPE + COMMA +
             DatabaseContract.PostsTable.TITLE + TEXT_TYPE + COMMA +
             DatabaseContract.PostsTable.IMAGELINK + TEXT_TYPE + COMMA +
             DatabaseContract.PostsTable.AUTHOR + TEXT_TYPE + COMMA +
-//            DatabaseContract.PostsTable.SELFTEXT + TEXT_TYPE + COMMA +
-            DatabaseContract.PostsTable.SELFTEXT + TEXT_TYPE + " )";
+            DatabaseContract.PostsTable.SELFTEXT + TEXT_TYPE + COMMA +
+
+// Add FOREIGN KEY
+            DatabaseContract.CommentsTable.POSTID + " INTEGER REFERENCES " +
+            DatabaseContract.PostsTable.TABLE_NAME +  "(" + DatabaseContract.CommentsTable.POSTID + ") ON DELETE CASCADE" +")";
+
+    // Create COMMENT TABLE SENTENCE
+    private static final String CREATE_COMMENT_TABLE = "CREATE TABLE " +
+            DatabaseContract.CommentsTable.TABLE_NAME + " (" +
+            DatabaseContract.CommentsTable.POSTID + TEXT_TYPE + COMMA +
+            DatabaseContract.CommentsTable.AUTHOR + TEXT_TYPE + COMMA +
+//            DatabaseContract.CommentsTable.COMMENT + TEXT_TYPE + COMMA +
+            DatabaseContract.CommentsTable.COMMENT + TEXT_TYPE + " )";
 
 
 
-    // Delete TABLE SENTENCE
-    public static final String DROP_MOVIE_TABLE = "DROP TABLE IF EXISTS " + DatabaseContract.PostsTable.TABLE_NAME;
+
+    // Delete TABLES SENTENCE
+    public static final String DROP_POST_TABLE = "DROP TABLE IF EXISTS " + DatabaseContract.PostsTable.TABLE_NAME;
+    public static final String DROP_COMMENT_TABLE = "DROP TABLE IF EXISTS " + DatabaseContract.CommentsTable.TABLE_NAME;
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL(CREATE_MOVIE_TABLE);
+        sqLiteDatabase.execSQL(CREATE_POST_TABLE);
+        sqLiteDatabase.execSQL(CREATE_COMMENT_TABLE);
+
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL(DROP_MOVIE_TABLE);
+        sqLiteDatabase.execSQL(DROP_POST_TABLE);
+        sqLiteDatabase.execSQL(DROP_COMMENT_TABLE);
+
         onCreate(sqLiteDatabase);
     }
 }
