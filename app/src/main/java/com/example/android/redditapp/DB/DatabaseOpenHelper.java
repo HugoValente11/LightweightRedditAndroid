@@ -28,6 +28,17 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
         db.setForeignKeyConstraintsEnabled(true);
     }
 
+    // Create another one
+    private static final String CREATE_POST_COMMENT = "CREATE TABLE " +
+            DatabaseContract.Posts_Comments.TABLE_NAME + " (" +
+            DatabaseContract.Posts_Comments.POSTID + TEXT_TYPE + COMMA +
+            DatabaseContract.Posts_Comments.COMMENTID + TEXT_TYPE + COMMA +
+            "FOREIGN KEY (" + DatabaseContract.Posts_Comments.POSTID + ") REFERENCES " + DatabaseContract.PostsTable.TABLE_NAME +
+            "(" + DatabaseContract.PostsTable.POSTID + ") " + COMMA +
+            "FOREIGN KEY (" + DatabaseContract.Posts_Comments.COMMENTID + ") REFERENCES " + DatabaseContract.CommentsTable.TABLE_NAME +
+            "(" + DatabaseContract.CommentsTable.COMMENTID + ") )";
+
+
     // Create POST TABLE SENTENCE
     private static final String CREATE_POST_TABLE = "CREATE TABLE " +
             DatabaseContract.PostsTable.TABLE_NAME + " (" +
@@ -37,18 +48,17 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
             DatabaseContract.PostsTable.IMAGELINK + TEXT_TYPE + COMMA +
             DatabaseContract.PostsTable.AUTHOR + TEXT_TYPE + COMMA +
             DatabaseContract.PostsTable.SELFTEXT + TEXT_TYPE + COMMA +
+            "PRIMARY KEY (" + DatabaseContract.PostsTable.POSTID + "))";
 
-// Add FOREIGN KEY
-            DatabaseContract.CommentsTable.POSTID + " INTEGER REFERENCES " +
-            DatabaseContract.PostsTable.TABLE_NAME +  "(" + DatabaseContract.CommentsTable.POSTID + ") ON DELETE CASCADE" +")";
 
     // Create COMMENT TABLE SENTENCE
     private static final String CREATE_COMMENT_TABLE = "CREATE TABLE " +
             DatabaseContract.CommentsTable.TABLE_NAME + " (" +
-            DatabaseContract.CommentsTable.POSTID + TEXT_TYPE + COMMA +
+            DatabaseContract.CommentsTable.COMMENTID + TEXT_TYPE + COMMA +
             DatabaseContract.CommentsTable.AUTHOR + TEXT_TYPE + COMMA +
 //            DatabaseContract.CommentsTable.COMMENT + TEXT_TYPE + COMMA +
-            DatabaseContract.CommentsTable.COMMENT + TEXT_TYPE + " )";
+            DatabaseContract.CommentsTable.COMMENT + TEXT_TYPE + COMMA +
+            "PRIMARY KEY (" + DatabaseContract.CommentsTable.COMMENTID + "))";
 
 
 
@@ -61,6 +71,8 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(CREATE_POST_TABLE);
         sqLiteDatabase.execSQL(CREATE_COMMENT_TABLE);
+        sqLiteDatabase.execSQL(CREATE_POST_COMMENT);
+
 
 
     }

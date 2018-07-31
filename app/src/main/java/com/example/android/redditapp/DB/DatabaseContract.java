@@ -17,7 +17,14 @@ public class DatabaseContract {
     public static final Uri CONTENT_URI_COMMENTS = BASE_CONTENT_URI.buildUpon().appendPath(PATH_COMMENTS).build();
 
 
+    public abstract class Posts_Comments implements BaseColumns{
 
+        public static final String TABLE_NAME = "posts_comments_table";
+
+        public static final String POSTID = "postid";
+        public static final String COMMENTID = "commentid";
+
+    }
 
 
 
@@ -38,7 +45,7 @@ public class DatabaseContract {
 
         public static final String TABLE_NAME = "comments_table";
 
-        public static final String POSTID = "postid";
+        public static final String COMMENTID = "commentid";
         public static final String COMMENT = "comment";
         public static final String AUTHOR = "author";
 
