@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
@@ -206,6 +207,8 @@ public class MainActivity extends AppCompatActivity {
         Cursor mCursor;
         mCursor = getContentResolver().query(DatabaseContract.CONTENT_URI, null, null, null, null);
 
+        String info = DatabaseUtils.dumpCursorToString(mCursor);
+        Log.d("DEBUGCURSOR", info);
 
         return mCursor;
     }
