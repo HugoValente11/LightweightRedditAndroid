@@ -90,6 +90,15 @@ public class DatabaseContentProvider extends ContentProvider {
                         null,
                         sortOrder);
                 break;
+            case COMMENTS:
+                retCursor =  db.query(DatabaseContract.CommentsTable.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+                break;
             // Default exception
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);

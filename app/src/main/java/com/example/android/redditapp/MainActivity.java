@@ -12,6 +12,9 @@ import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerViewAccessibilityDelegate;
 import android.telecom.Call;
 import android.text.TextUtils;
 import android.util.Log;
@@ -28,6 +31,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.android.redditapp.Connection.ConnectionManager;
 import com.example.android.redditapp.Connection.Request;
 import com.example.android.redditapp.DB.DatabaseContract;
+import com.example.android.redditapp.RecyclerView.RecyclerViewAdapter;
 import com.example.android.redditapp.models.Post.Child;
 import com.example.android.redditapp.models.Post.Post;
 import com.google.gson.Gson;
@@ -53,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
     private String bodyText;
     private String authorText;
     private String imageURL;
+    private RecyclerView mRecyclerView;
+    private RecyclerViewAdapter mAdapter;
 
 
 
@@ -93,7 +99,15 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENES_SUBREDDITS_KEY, Context.MODE_PRIVATE);
 
+        setupAdapter();
+
         loadPost(this, Constants.someRedditPost);
+
+    }
+
+    private void setupAdapter() {
+        mRecyclerView = findViewById(R.id.commentsRecyclerView);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     }
 
@@ -153,25 +167,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void populateUI() {
-        Cursor mCursor = getAllPosts();
-        mCursor.move(3);
+        Cursor mPostsCursor = getAllPosts();
+        Cursor mCommentsCursor = getAllComments();
+        mPostsCursor.moveToPosition(1);
 
-        subredditText = mCursor.getString(mCursor.getColumnIndex(DatabaseContract.PostsTable.SUBREDDIT));
+        subredditText = mPostsCursor.getString(mPostsCursor.getColumnIndex(DatabaseContract.PostsTable.SUBREDDIT));
         subredditTextView.setText(subredditText);
 
-        authorText = mCursor.getString(mCursor.getColumnIndex(DatabaseContract.PostsTable.AUTHOR));
+        authorText = mPostsCursor.getString(mPostsCursor.getColumnIndex(DatabaseContract.PostsTable.AUTHOR));
         authorTextView.setText(authorText);
 
-        title = mCursor.getString(mCursor.getColumnIndex(DatabaseContract.PostsTable.TITLE));
+        title = mPostsCursor.getString(mPostsCursor.getColumnIndex(DatabaseContract.PostsTable.TITLE));
         titleTextView.setText(title);
 
-        bodyText = mCursor.getString(mCursor.getColumnIndex(DatabaseContract.PostsTable.SELFTEXT));
+        bodyText = mPostsCursor.getString(mPostsCursor.getColumnIndex(DatabaseContract.PostsTable.SELFTEXT));
         bodyTextView.setText(bodyText);
 
-        imageURL = mCursor.getString(mCursor.getColumnIndex(DatabaseContract.PostsTable.IMAGELINK));
+        imageURL = mPostsCursor.getString(mPostsCursor.getColumnIndex(DatabaseContract.PostsTable.IMAGELINK));
         if(!TextUtils.isEmpty(imageURL)) {
             Picasso.get().load(imageURL).into(thumbnail);
         }
+
+        mAdapter = new RecyclerViewAdapter(this, mCommentsCursor);
+        mRecyclerView.setAdapter(mAdapter);
 
     }
 
@@ -253,6 +271,17 @@ public class MainActivity extends AppCompatActivity {
         // fazer query de todos os filmes de uma categoria
         Cursor mCursor;
         mCursor = getContentResolver().query(DatabaseContract.CONTENT_URI_POSTS, null, null, null, null);
+
+        String info = DatabaseUtils.dumpCursorToString(mCursor);
+        Log.d("DEBUGCURSOR", info);
+
+        return mCursor;
+    }
+
+    private Cursor getAllComments() {
+        // fazer query de todos os filmes de uma categoria
+        Cursor mCursor;
+        mCursor = getContentResolver().query(DatabaseContract.CONTENT_URI_COMMENTS, null, null, null, null);
 
         String info = DatabaseUtils.dumpCursorToString(mCursor);
         Log.d("DEBUGCURSOR", info);
