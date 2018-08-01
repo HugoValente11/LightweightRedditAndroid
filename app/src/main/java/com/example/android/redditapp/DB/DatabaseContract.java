@@ -47,6 +47,7 @@ public class DatabaseContract {
 
         public static final String TABLE_NAME = "comments_table";
 
+        public static final String POSTID = "postid";
         public static final String COMMENTID = "commentid";
         public static final String COMMENT = "comment";
         public static final String AUTHOR = "author";

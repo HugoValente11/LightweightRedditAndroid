@@ -55,9 +55,12 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     private static final String CREATE_COMMENT_TABLE = "CREATE TABLE " +
             DatabaseContract.CommentsTable.TABLE_NAME + " (" +
             DatabaseContract.CommentsTable.COMMENTID + TEXT_TYPE + COMMA +
+            DatabaseContract.CommentsTable.POSTID + TEXT_TYPE + COMMA +
             DatabaseContract.CommentsTable.AUTHOR + TEXT_TYPE + COMMA +
             DatabaseContract.CommentsTable.COMMENT + TEXT_TYPE + COMMA +
-            "PRIMARY KEY (" + DatabaseContract.CommentsTable.COMMENTID + "))";
+            " FOREIGN KEY (" + DatabaseContract.CommentsTable.POSTID +
+            ") REFERENCES " + DatabaseContract.PostsTable.TABLE_NAME +
+            " (" + DatabaseContract.PostsTable.POSTID + ") )";
 
 
 

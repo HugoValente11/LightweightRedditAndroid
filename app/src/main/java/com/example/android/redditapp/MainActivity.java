@@ -222,6 +222,7 @@ public class MainActivity extends AppCompatActivity {
 
                 ContentValues cv2 = new ContentValues();
 
+                cv2.put(DatabaseContract.CommentsTable.POSTID, postList.get(0).getData().getChildren().get(0).getData().getId());
                 cv2.put(DatabaseContract.CommentsTable.COMMENTID, postList.get(1).getData().getChildren().get(i).getData().getId());
                 cv2.put(DatabaseContract.CommentsTable.COMMENT,   postList.get(1).getData().getChildren().get(i).getData().getBody());
                 cv2.put(DatabaseContract.CommentsTable.AUTHOR,    postList.get(1).getData().getChildren().get(i).getData().getAuthor());
@@ -233,12 +234,12 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
-                ContentValues cv3 = new ContentValues();
-
-                cv3.put(DatabaseContract.PostsCommentsTable.COMMENTID, postList.get(0).getData().getChildren().get(0).getData().getId());
-                cv3.put(DatabaseContract.PostsCommentsTable.POSTID,   postList.get(1).getData().getChildren().get(0).getData().getId());
-
-                Uri uri3 = getContentResolver().insert(DatabaseContract.CONTENT_URI_POSTS_COMMENTS, cv3);
+//                ContentValues cv3 = new ContentValues();
+//
+//                cv3.put(DatabaseContract.PostsCommentsTable.COMMENTID, postList.get(0).getData().getChildren().get(0).getData().getId());
+//                cv3.put(DatabaseContract.PostsCommentsTable.POSTID,   postList.get(1).getData().getChildren().get(0).getData().getId());
+//
+//                Uri uri3 = getContentResolver().insert(DatabaseContract.CONTENT_URI_POSTS_COMMENTS, cv3);
 
 
 
