@@ -19,7 +19,7 @@ public class DatabaseContract {
     public static final Uri CONTENT_URI_POSTS_COMMENTS = BASE_CONTENT_URI.buildUpon().appendPath(PATH_POSTS_COMMENTS).build();
 
 
-    public abstract class PostsCommentsTable implements BaseColumns{
+    public abstract class PostsCommentsTable implements BaseColumns {
 
         public static final String TABLE_NAME = "posts_comments_table";
 
