@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENES_SUBREDDITS_KEY, Context.MODE_PRIVATE);
 
-        loadPost(this, Constants.anotheranotherRedditPost);
+        loadPost(this, Constants.someRedditPost);
 
     }
 
@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void populateUI() {
         Cursor mCursor = getAllPosts();
-        mCursor.move(1);
+        mCursor.move(3);
 
         subredditText = mCursor.getString(mCursor.getColumnIndex(DatabaseContract.PostsTable.SUBREDDIT));
         subredditTextView.setText(subredditText);
