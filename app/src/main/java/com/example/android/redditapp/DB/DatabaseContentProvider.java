@@ -21,9 +21,13 @@ public class DatabaseContentProvider extends ContentProvider {
     // and related ints (101, 102, ..) for items in that directory.
     public static final int POSTS = 100;
     public static final int COMMENTS = 200;
+    public static final int POSTS_COMMENTS = 300;
+
 
     public static final int POSTS_WITH_ID = 101;
     public static final int COMMENTS_WITH_ID = 201;
+    public static final int POSTS_COMMENTS_WITH_ID = 301;
+
 
 
     // CDeclare a static variable for the Uri matcher that you construct
@@ -48,6 +52,8 @@ public class DatabaseContentProvider extends ContentProvider {
         uriMatcher.addURI(DatabaseContract.CONTENT_AUTHORITY, DatabaseContract.PATH_POSTS + "/#", POSTS_WITH_ID);
         uriMatcher.addURI(DatabaseContract.CONTENT_AUTHORITY, DatabaseContract.PATH_COMMENTS, COMMENTS);
         uriMatcher.addURI(DatabaseContract.CONTENT_AUTHORITY, DatabaseContract.PATH_COMMENTS + "/#", COMMENTS_WITH_ID);
+        uriMatcher.addURI(DatabaseContract.CONTENT_AUTHORITY, DatabaseContract.PATH_POSTS_COMMENTS, POSTS_COMMENTS);
+        uriMatcher.addURI(DatabaseContract.CONTENT_AUTHORITY, DatabaseContract.PATH_POSTS_COMMENTS + "/#", POSTS_COMMENTS_WITH_ID);
 
         return uriMatcher;
     }
@@ -124,6 +130,14 @@ public class DatabaseContentProvider extends ContentProvider {
                 _id = db.insert(DatabaseContract.CommentsTable.TABLE_NAME, null, contentValues);
                 if (_id > 0) {
                     returnUri = ContentUris.withAppendedId(DatabaseContract.CONTENT_URI_COMMENTS, _id);
+                } else {
+                    throw new SQLException("Couldn't insert data into " + uri);
+                }
+                break;
+            case POSTS_COMMENTS:
+                _id = db.insert(DatabaseContract.PostsCommentsTable.TABLE_NAME, null, contentValues);
+                if (_id > 0) {
+                    returnUri = ContentUris.withAppendedId(DatabaseContract.CONTENT_URI_POSTS_COMMENTS, _id);
                 } else {
                     throw new SQLException("Couldn't insert data into " + uri);
                 }
