@@ -178,7 +178,9 @@ public class MainActivity extends AppCompatActivity {
     private void addPostsToDb(List<Post> postList) {
         Cursor mCursor = getAllPosts();
 
-        for (Post post : postList) {
+        postList.get(0).getData().getChildren().get(0).getData().getId();
+
+        {
 
             boolean isInDB = false;
 
@@ -206,12 +208,12 @@ public class MainActivity extends AppCompatActivity {
 
                 ContentValues cv = new ContentValues();
 
-                cv.put(DatabaseContract.PostsTable.SUBREDDIT, post.getData().getChildren().get(0).getData().getSubreddit());
-                cv.put(DatabaseContract.PostsTable.POSTID, post.getData().getChildren().get(0).getData().getId());
-                cv.put(DatabaseContract.PostsTable.TITLE, post.getData().getChildren().get(0).getData().getTitle());
-                cv.put(DatabaseContract.PostsTable.AUTHOR, post.getData().getChildren().get(0).getData().getAuthor());
-                cv.put(DatabaseContract.PostsTable.SELFTEXT, post.getData().getChildren().get(0).getData().getSelftext());
-                cv.put(DatabaseContract.PostsTable.IMAGELINK, post.getData().getChildren().get(0).getData().getThumbnail());
+                cv.put(DatabaseContract.PostsTable.SUBREDDIT, postList.get(0).getData().getChildren().get(0).getData().getSubreddit());
+                cv.put(DatabaseContract.PostsTable.POSTID,    postList.get(0).getData().getChildren().get(0).getData().getId());
+                cv.put(DatabaseContract.PostsTable.TITLE,     postList.get(0).getData().getChildren().get(0).getData().getTitle());
+                cv.put(DatabaseContract.PostsTable.AUTHOR,    postList.get(0).getData().getChildren().get(0).getData().getAuthor());
+                cv.put(DatabaseContract.PostsTable.SELFTEXT,  postList.get(0).getData().getChildren().get(0).getData().getSelftext());
+                cv.put(DatabaseContract.PostsTable.IMAGELINK, postList.get(0).getData().getChildren().get(0).getData().getThumbnail());
 
                 Uri uri = getContentResolver().insert(DatabaseContract.CONTENT_URI_POSTS, cv);
 
@@ -220,11 +222,21 @@ public class MainActivity extends AppCompatActivity {
 //                cv2.put(DatabaseContract.CommentsTable.COMMENTID, post.getData().getChildren().get(0).getData().getId());
 //                cv2.put(DatabaseContract.CommentsTable.COMMENT, post.getData().getChildren().get(0).getData().getBody());
 //                cv2.put(DatabaseContract.CommentsTable.AUTHOR, post.getData().getChildren().get(0).getData().getAuthor());
-                cv2.put(DatabaseContract.CommentsTable.COMMENTID, "test1");
-                cv2.put(DatabaseContract.CommentsTable.COMMENT, "test1");
-                cv2.put(DatabaseContract.CommentsTable.AUTHOR,"test1");
+                cv2.put(DatabaseContract.CommentsTable.COMMENTID, postList.get(1).getData().getChildren().get(0).getData().getId());
+                cv2.put(DatabaseContract.CommentsTable.COMMENT,   postList.get(1).getData().getChildren().get(0).getData().getBody());
+                cv2.put(DatabaseContract.CommentsTable.AUTHOR,    postList.get(1).getData().getChildren().get(0).getData().getAuthor());
 
                 Uri uri2 = getContentResolver().insert(DatabaseContract.CONTENT_URI_COMMENTS, cv2);
+
+                ContentValues cv3 = new ContentValues();
+
+//                cv2.put(DatabaseContract.CommentsTable.COMMENTID, post.getData().getChildren().get(0).getData().getId());
+//                cv2.put(DatabaseContract.CommentsTable.COMMENT, post.getData().getChildren().get(0).getData().getBody());
+//                cv2.put(DatabaseContract.CommentsTable.AUTHOR, post.getData().getChildren().get(0).getData().getAuthor());
+                cv3.put(DatabaseContract.Posts_Comments.COMMENTID, postList.get(0).getData().getChildren().get(0).getData().getId());
+                cv3.put(DatabaseContract.Posts_Comments.POSTID,   postList.get(1).getData().getChildren().get(0).getData().getId());
+
+                Uri uri3 = getContentResolver().insert(DatabaseContract.CONTENT_URI_POSTS_COMMENTS, cv3);
 
 
 
