@@ -12,6 +12,8 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.example.android.redditapp.models.Post.Data;
+
 public class DatabaseContentProvider extends ContentProvider {
 
     // Define final integer constants for the directory of tasks and a single item.
@@ -109,12 +111,26 @@ public class DatabaseContentProvider extends ContentProvider {
         Uri returnUri;
 
 
+        switch(sUriMatcher.match(uri)) {
+            case POSTS:
                 _id = db.insert(DatabaseContract.PostsTable.TABLE_NAME, null, contentValues);
                 if (_id > 0) {
                     returnUri = ContentUris.withAppendedId(DatabaseContract.CONTENT_URI_POSTS, _id);
                 } else {
                     throw new SQLException("Couldn't insert data into " + uri);
                 }
+                break;
+            case COMMENTS:
+                _id = db.insert(DatabaseContract.CommentsTable.TABLE_NAME, null, contentValues);
+                if (_id > 0) {
+                    returnUri = ContentUris.withAppendedId(DatabaseContract.CONTENT_URI_COMMENTS, _id);
+                } else {
+                    throw new SQLException("Couldn't insert data into " + uri);
+                }
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
 
 
 

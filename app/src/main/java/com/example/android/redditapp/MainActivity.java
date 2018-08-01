@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-                Log.d("Uri", "Uri: " + uri);
+                Log.d("Uri", "\nUri: " + uri + "\nUri2: " + uri2);
             }
         }
 

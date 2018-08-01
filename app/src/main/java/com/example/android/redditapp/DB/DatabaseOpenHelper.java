@@ -56,7 +56,6 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
             DatabaseContract.CommentsTable.TABLE_NAME + " (" +
             DatabaseContract.CommentsTable.COMMENTID + TEXT_TYPE + COMMA +
             DatabaseContract.CommentsTable.AUTHOR + TEXT_TYPE + COMMA +
-//            DatabaseContract.CommentsTable.COMMENT + TEXT_TYPE + COMMA +
             DatabaseContract.CommentsTable.COMMENT + TEXT_TYPE + COMMA +
             "PRIMARY KEY (" + DatabaseContract.CommentsTable.COMMENTID + "))";
 
