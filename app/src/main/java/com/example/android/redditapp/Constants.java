@@ -11,6 +11,7 @@ public class Constants {
 
     public static String anotherRedditPost = "https://www.reddit.com/r/funny/comments/92tw8e/i_was_stood_taking_a_photo_of_my_girlfriend_in/.json" + limitTo10;
 
+    public static String someAskRedditPost = "https://www.reddit.com/r/AskReddit/comments/93wbva/.json" + limitTo10;
     public static String anotheranotherRedditPost = "https://www.reddit.com/r/australia/comments/92tnth/congratulations_on_the_career_of_this_aussie/.json" + limitTo10;
 
     public static String SHARED_PREFERENES_SUBREDDITS_KEY="SUBREDDITS";

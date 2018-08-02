@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
         setupAdapter();
 
-        loadPost(this, Constants.someRedditPost);
+        loadPost(this, Constants.someAskRedditPost);
 
     }
 
