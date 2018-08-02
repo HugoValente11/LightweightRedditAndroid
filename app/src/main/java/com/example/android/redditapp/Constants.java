@@ -6,7 +6,7 @@ public class Constants {
     public static String limitTo5= "&limit=5";
     public static String soccerSubReddit = subRedditBase + "soccer" + limitTo5;
 
-    public static String limitTo10= "?limit=10";
+    public static String limitTo10= "?&limit=10";
     public static String someRedditPost = "https://www.reddit.com/r/soccer/comments/91ven3/.json" + limitTo10;
 
     public static String anotherRedditPost = "https://www.reddit.com/r/funny/comments/92tw8e/i_was_stood_taking_a_photo_of_my_girlfriend_in/.json" + limitTo10;
