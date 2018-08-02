@@ -9,6 +9,7 @@ import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private String imageURL;
     private RecyclerView mRecyclerView;
     private RecyclerViewAdapter mAdapter;
+    private Cursor mPostsCursor;
 
 
 
@@ -82,6 +84,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ConstraintLayout constraintLayout = findViewById(R.id.mainActivityLayout);
+        constraintLayout.setOnTouchListener(new OnSwipeTouchListener(this) {
+            @Override
+            public void onSwipeLeft() {
+                Toast.makeText(MainActivity.this, "This is working", Toast.LENGTH_SHORT).show();
+                swipeCursor();
+            }
+
+            @Override
+            public void onSwipeRight() {
+                Toast.makeText(MainActivity.this, "This is working", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
         titleTextView = findViewById(R.id.titleTextView);
         bodyTextView = findViewById(R.id.bodyTextView);
         thumbnail = findViewById(R.id.thumbnail);
@@ -102,7 +119,20 @@ public class MainActivity extends AppCompatActivity {
 
         setupAdapter();
 
-        loadPost(this, Constants.anotherRedditPost);
+        loadPost(this, Constants.someRedditPost);
+
+    }
+
+    private void swipeCursor() {
+        int maximum_position = mPostsCursor.getCount();
+        if (mPostsCursor.getPosition() + 1 < maximum_position) {
+            int position = mPostsCursor.getPosition() + 1;
+            mPostsCursor.moveToPosition(position);
+        } else {
+            mPostsCursor.moveToFirst();
+        }
+        populateUI();
+        mAdapter.notifyDataSetChanged();
 
     }
 
@@ -172,9 +202,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void populateUI() {
-        Cursor mPostsCursor = getAllPosts();
-        mPostsCursor.moveToPosition(1);
-
+        if (mPostsCursor == null) {
+            mPostsCursor = getAllPosts();
+        }
+        if (mPostsCursor.getPosition() == -1) {
+            mPostsCursor.moveToFirst();
+        }
 
 
 
@@ -193,6 +226,8 @@ public class MainActivity extends AppCompatActivity {
         imageURL = mPostsCursor.getString(mPostsCursor.getColumnIndex(DatabaseContract.PostsTable.IMAGELINK));
         if(!TextUtils.isEmpty(imageURL)) {
             Picasso.get().load(imageURL).into(thumbnail);
+        } else {
+            thumbnail.setImageResource(R.drawable.image_error);
         }
 
         String postID = mPostsCursor.getString(mPostsCursor.getColumnIndex(DatabaseContract.PostsTable.POSTID));
@@ -202,6 +237,8 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
 
     }
+
+
 
     private void addPostsToDb(List<Post> postList) {
         Cursor mCursor = getAllPosts();
