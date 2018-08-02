@@ -120,6 +120,9 @@ public class MainActivity extends AppCompatActivity {
         setupAdapter();
 
         loadPost(this, Constants.someAskRedditPost);
+        loadPost(this, Constants.someRedditPost);
+        loadPost(this, Constants.anotherRedditPost);
+        loadPost(this, Constants.anotheranotherRedditPost);
 
     }
 
