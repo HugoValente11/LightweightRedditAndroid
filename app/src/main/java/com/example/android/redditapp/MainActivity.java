@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
         setupAdapter();
 
-        loadPost(this, Constants.someRedditPost);
+        loadPost(this, Constants.anotherRedditPost);
 
     }
 
@@ -173,8 +173,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void populateUI() {
         Cursor mPostsCursor = getAllPosts();
-        Cursor mCommentsCursor = getAllComments();
         mPostsCursor.moveToPosition(1);
+
+
+
 
         subredditText = mPostsCursor.getString(mPostsCursor.getColumnIndex(DatabaseContract.PostsTable.SUBREDDIT));
         subredditTextView.setText(subredditText);
@@ -192,6 +194,9 @@ public class MainActivity extends AppCompatActivity {
         if(!TextUtils.isEmpty(imageURL)) {
             Picasso.get().load(imageURL).into(thumbnail);
         }
+
+        String postID = mPostsCursor.getString(mPostsCursor.getColumnIndex(DatabaseContract.PostsTable.POSTID));
+        Cursor mCommentsCursor = getAllComments(postID);
 
         mAdapter = new RecyclerViewAdapter(this, mCommentsCursor);
         mRecyclerView.setAdapter(mAdapter);
@@ -256,16 +261,6 @@ public class MainActivity extends AppCompatActivity {
 
 
                 }
-
-//                ContentValues cv3 = new ContentValues();
-//
-//                cv3.put(DatabaseContract.PostsCommentsTable.COMMENTID, postList.get(0).getData().getChildren().get(0).getData().getId());
-//                cv3.put(DatabaseContract.PostsCommentsTable.POSTID,   postList.get(1).getData().getChildren().get(0).getData().getId());
-//
-//                Uri uri3 = getContentResolver().insert(DatabaseContract.CONTENT_URI_POSTS_COMMENTS, cv3);
-
-
-
             }
         }
 
@@ -283,10 +278,12 @@ public class MainActivity extends AppCompatActivity {
         return mCursor;
     }
 
-    private Cursor getAllComments() {
+    private Cursor getAllComments(String postID) {
         // fazer query de todos os filmes de uma categoria
         Cursor mCursor;
-        mCursor = getContentResolver().query(DatabaseContract.CONTENT_URI_COMMENTS, null, null, null, null);
+        String[] selectionArgs = {postID};
+        String selection = DatabaseContract.CommentsTable.POSTID + " = ?";
+        mCursor = getContentResolver().query(DatabaseContract.CONTENT_URI_COMMENTS, null, selection, selectionArgs, null);
 
         String info = DatabaseUtils.dumpCursorToString(mCursor);
         Log.d("DEBUGCURSOR", info);
