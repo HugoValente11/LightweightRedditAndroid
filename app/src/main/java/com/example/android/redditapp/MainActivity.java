@@ -19,6 +19,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerViewAccessibilityDelegate;
 
+import android.support.v7.widget.Toolbar;
 import android.telecom.Call;
 import android.text.TextUtils;
 import android.util.Log;
@@ -76,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.settingsMenuItem:
                 launchSettings();
+            case R.id.search:
+                super.onSearchRequested();
             default:
                 return super.onOptionsItemSelected(item);
 
@@ -86,6 +89,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+//        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(myToolbar);
 
         ConstraintLayout constraintLayout = findViewById(R.id.mainActivityLayout);
         constraintLayout.setOnTouchListener(new OnSwipeTouchListener(this) {
