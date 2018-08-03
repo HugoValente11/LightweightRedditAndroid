@@ -205,15 +205,22 @@ public class DatabaseContentProvider extends ContentProvider {
         // Keep track of the number of deleted tasks
         int tasksDeleted; // starts as 0
 
+        String id;
         // Write the code to delete a single row of data
         // [Hint] Use selections to delete an item by its row ID
         switch (match) {
             // Handle the single item case, recognized by the ID included in the URI path
             case POSTS_WITH_ID:
                 // Get the task ID from the URI path
-                String id = uri.getPathSegments().get(1);
+               id = uri.getPathSegments().get(1);
                 // Use selections/selectionArgs to filter for this ID
                 tasksDeleted = db.delete(DatabaseContract.PostsTable.TABLE_NAME, "_id=?", new String[]{id});
+                break;
+            case SUBREDDITS_WITH_ID:
+                // Get the task ID from the URI path
+                id = uri.getPathSegments().get(1);
+                // Use selections/selectionArgs to filter for this ID
+                tasksDeleted = db.delete(DatabaseContract.SubRedditsTable.TABLE_NAME, "_id=?", new String[]{id});
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);

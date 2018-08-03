@@ -58,5 +58,7 @@ public class SettingsSubredditsActivity extends AppCompatActivity implements Sub
         cursor.moveToFirst();
         String subredditTitle = cursor.getString(cursor.getColumnIndex(DatabaseContract.SubRedditsTable.SUBREDDIT));
         Toast.makeText(this, "Subreddit clicked: " + subredditTitle, Toast.LENGTH_SHORT).show();
+        getContentResolver().delete(subredditUri, null, null);
+        mAdapter.notifyDataSetChanged();
     }
 }
