@@ -40,7 +40,6 @@ public class SearchableActivity extends AppCompatActivity {
         subRedditsListView = findViewById(R.id.subredditsListView);
 
         Log.d("TAG", "I'm alive... Sort of.");
-        Toast.makeText(this, "I'm alive... Sort of.", Toast.LENGTH_SHORT).show();
 
         // Add click listener add adapter
         subRedditsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -70,12 +69,6 @@ public class SearchableActivity extends AppCompatActivity {
             String searchQuery = intent.getStringExtra(SearchManager.QUERY);
 
             doQuery(searchQuery);
-
-//            CustomSearchAdapter adapter = new CustomSearchAdapter(this,
-//                    android.R.layout.simple_dropdown_item_1line,
-//                    // Add list
-//                    StoresData.filterData(searchQuery));
-//            subRedditsListView.setAdapter(adapter);
 
         } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
             String selectedSuggestionRowId = intent.getDataString();

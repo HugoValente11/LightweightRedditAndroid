@@ -46,9 +46,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public Cursor swapCursor(Cursor c) {
 //        // check if this cursor is the same as the previous cursor (mCursor)
-//        if (mCursor == c) {
-//            return null; // bc nothing has changed
-//        }
+        if (mCursor == c) {
+            return null; // bc nothing has changed
+        }
         Cursor temp = mCursor;
         this.mCursor = c; // new cursor value assigned
 

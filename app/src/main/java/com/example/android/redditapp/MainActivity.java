@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void launchSettings() {
-        Intent intent = new Intent(this, SettingsActivity.class );
+        Intent intent = new Intent(this, SettingsSubredditsActivity.class );
         startActivity(intent);
     }
 
