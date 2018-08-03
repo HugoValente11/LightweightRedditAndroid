@@ -13,6 +13,7 @@ public class DatabaseContract {
     public static final String PATH_COMMENTS = "comments";
     public static final String PATH_POSTS_COMMENTS = "postscomments";
     public static final String PATH_SUBREDDITS = "subreddits";
+    public static final String PATH_ELIMINATEDPOSTS = "eliminated";
 
 
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
@@ -20,6 +21,8 @@ public class DatabaseContract {
     public static final Uri CONTENT_URI_COMMENTS = BASE_CONTENT_URI.buildUpon().appendPath(PATH_COMMENTS).build();
     public static final Uri CONTENT_URI_POSTS_COMMENTS = BASE_CONTENT_URI.buildUpon().appendPath(PATH_POSTS_COMMENTS).build();
     public static final Uri CONTENT_URI_SUBREDDITS = BASE_CONTENT_URI.buildUpon().appendPath(PATH_SUBREDDITS).build();
+    public static final Uri CONTENT_URI_ELIMINATEDPOSTS = BASE_CONTENT_URI.buildUpon().appendPath(PATH_ELIMINATEDPOSTS).build();
+
 
 
     public abstract class PostsCommentsTable implements BaseColumns {

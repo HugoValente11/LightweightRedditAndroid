@@ -118,9 +118,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void swipeCursor() {
+        // Get info from cursor
+        String subreddit = mPostsCursor.getString(mPostsCursor.getColumnIndex(DatabaseContract.PostsTable.SUBREDDIT));
+        String postID = mPostsCursor.getString(mPostsCursor.getColumnIndex(DatabaseContract.PostsTable.POSTID));
+
+        String id = mPostsCursor.getString(mPostsCursor.getColumnIndex(DatabaseContract.PostsTable._ID));
+
+
+        // Delete fromm posts table
+        Uri postUri = DatabaseContract.CONTENT_URI_POSTS.buildUpon()
+                .appendPath(id).build();
+        getContentResolver().delete(postUri, null, null);
+
+        // Add to eliminated posts table
+
+        ContentValues cv = new ContentValues();
+
+        cv.put(DatabaseContract.EliminatedPostsTable.SUBREDDIT, subreddit);
+        cv.put(DatabaseContract.EliminatedPostsTable.POSTID,    postID);
+
+        getContentResolver().insert(DatabaseContract.CONTENT_URI_ELIMINATEDPOSTS, cv);
+
         int maximum_position = mPostsCursor.getCount();
         if (mPostsCursor.getPosition() + 1 < maximum_position) {
-            int position = mPostsCursor.getPosition() + 1;
+           int position = mPostsCursor.getPosition() + 1;
             mPostsCursor.moveToPosition(position);
         } else {
             mPostsCursor.moveToFirst();

@@ -42,7 +42,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     // Create POST TABLE SENTENCE
     private static final String CREATE_POST_TABLE = "CREATE TABLE " +
             DatabaseContract.PostsTable.TABLE_NAME + " (" +
-//            DatabaseContract.PostsTable._ID + " INTEGER AUNTOINCREMENT, " +
+            DatabaseContract.PostsTable._ID + " INTEGER , " +
             DatabaseContract.PostsTable.SUBREDDIT + TEXT_TYPE + COMMA +
             DatabaseContract.PostsTable.POSTID + TEXT_TYPE + COMMA +
             DatabaseContract.PostsTable.TITLE + TEXT_TYPE + COMMA +
