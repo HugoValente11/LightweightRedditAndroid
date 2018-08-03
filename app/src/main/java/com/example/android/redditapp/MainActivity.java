@@ -67,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerViewAdapter mAdapter;
     private Cursor mPostsCursor;
+    private SearchView searchView;
+    private String querySearchView;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -82,9 +84,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        String query;
+        if (searchView.getQuery().toString() != null) {
+            query = searchView.getQuery().toString();
+            Log.d("QUERY", "This log: " + query);
+            outState.putString("svkey", query);
+
+        }
+
+
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (savedInstanceState != null) {
+            querySearchView = savedInstanceState.getString("svkey");
+        }
 
         ConstraintLayout constraintLayout = findViewById(R.id.mainActivityLayout);
         constraintLayout.setOnTouchListener(new OnSwipeTouchListener(this) {
@@ -173,10 +198,31 @@ public class MainActivity extends AppCompatActivity {
         // Associate searchable configuration with the SearchView
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
+
+        searchView =
                 (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
+
+
+        if (searchView != null) {
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String s) {
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String s) {
+                    querySearchView = s;
+                    return true;
+                }
+            });
+        }
+        if (querySearchView != null) {
+            searchView.setIconified(false);
+            searchView.setQuery(querySearchView, false);
+        }
 
         return true;
     }
