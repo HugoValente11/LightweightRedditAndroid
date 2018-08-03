@@ -36,11 +36,12 @@ import java.util.List;
 public class SearchableActivity extends AppCompatActivity implements SearchClickHandler{
     private RecyclerView mRecyclerView;
     private CustomSearchAdapter mAdapter;
-    private static SearchClickHandler mClickHandler;
+    private List<String> subReddits;
 
     @Override
     public void onClick(int position) {
-        Toast.makeText(this, "Position clicked: " + position, Toast.LENGTH_SHORT).show();
+        String subreddit = subReddits.get(position);
+        checkIfInDBIfNotAdd(subreddit);
     }
 
 
@@ -58,18 +59,6 @@ public class SearchableActivity extends AppCompatActivity implements SearchClick
         mRecyclerView.addItemDecoration(dividerItemDecoration);
 
         Log.d("TAG", "I'm alive... Sort of.");
-
-//        // Add click listener add adapter
-//        subRedditsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            // Add here the subreddit
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                String subreddit = ((TextView)view).getText().toString();
-//
-//                checkIfInDBIfNotAdd(subreddit);
-//
-//            }
-//        });
 
         handleSearch();
     }
@@ -115,7 +104,7 @@ public class SearchableActivity extends AppCompatActivity implements SearchClick
                 Gson gson = new Gson();
 
                 SubReddit subreddit = gson.fromJson(response, SubReddit.class);
-                List<String> subReddits= new ArrayList<>();
+                subReddits= new ArrayList<>();
 
                 for (int i=0; i < subreddit.getData().getChildren().size(); i++) {
                     subReddits.add(subreddit.getData().getChildren().get(i).getData().getDisplayName());
