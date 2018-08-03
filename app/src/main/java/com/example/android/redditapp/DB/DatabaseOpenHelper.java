@@ -65,6 +65,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     // Create POST TABLE SENTENCE
     private static final String CREATE_SUBREDDITS_TABLE = "CREATE TABLE " +
             DatabaseContract.SubRedditsTable.TABLE_NAME + " (" +
+            DatabaseContract.SubRedditsTable._ID + " INTEGER PRIMARY KEY, " +
             DatabaseContract.SubRedditsTable.SUBREDDIT + TEXT_TYPE + ")";
 
 

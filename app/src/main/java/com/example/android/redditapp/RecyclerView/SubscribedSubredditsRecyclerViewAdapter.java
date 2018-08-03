@@ -1,11 +1,9 @@
 package com.example.android.redditapp.RecyclerView;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,33 +13,36 @@ import android.widget.TextView;
 
 import com.example.android.redditapp.DB.DatabaseContract;
 import com.example.android.redditapp.R;
-import com.squareup.picasso.Picasso;
 
-import java.util.List;
 
-public class SubscribedSubredditsRecyclerViewAdapter extends RecyclerView.Adapter<SubscribedSubredditsRecyclerViewAdapter.ViewHolder>  {
+public class SubscribedSubredditsRecyclerViewAdapter extends RecyclerView.Adapter<SubscribedSubredditsRecyclerViewAdapter.ViewHolder> {
 
-// Trying to add Click Listener
+    // Trying to add Click Listener
 // Keeps track of the context and list of images to display
-private Context mContext;
+    private Context mContext;
     private Cursor mCursor;
+    private CursorAdapterOnClickHandler mClickHandler;
 
 
-public interface RecyclerViewClickHandler {
-    void onClick(int position);
-}
+    /**
+     * The interface that receives onClick messages.
+     */
+    public interface CursorAdapterOnClickHandler {
+        void onClick(long id);
+    }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public SubscribedSubredditsRecyclerViewAdapter(Context context, Cursor cursor) {
+    public SubscribedSubredditsRecyclerViewAdapter(Context context, Cursor cursor, CursorAdapterOnClickHandler clickHandler) {
         mContext = context;
         mCursor = cursor;
+        mClickHandler = clickHandler;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // create a new view
-        View view =  LayoutInflater.from(parent.getContext())
+        View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycler_view_subscribedsubreddits_row, parent, false);
 
         return new ViewHolder(view);
@@ -55,8 +56,7 @@ public interface RecyclerViewClickHandler {
         String subreddit = mCursor.getString(mCursor.getColumnIndex(DatabaseContract.SubRedditsTable.SUBREDDIT));
 
         holder.mTextView.setText(subreddit);
-}
-
+    }
 
 
     @Override
@@ -67,28 +67,31 @@ public interface RecyclerViewClickHandler {
         return mCursor.getCount();
     }
 
-// Provide a reference to the views for each data item
+    // Provide a reference to the views for each data item
 // Complex data items may need more than one view per item, and
 // you provide access to all the views for a data item in a view holder
-public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-    // each data item is just a string in this case
-    public TextView mTextView;
-    public ImageView mImageView;
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        // each data item is just a string in this case
+        public TextView mTextView;
+        public ImageView mImageView;
 
-    public ViewHolder(View itemView) {
-        super(itemView);
-        mTextView = itemView.findViewById(R.id.subredditTextView);
-        mImageView = itemView.findViewById(R.id.unsubscribeSubredditimageView);
+        ViewHolder(View itemView) {
+            super(itemView);
+            mTextView = itemView.findViewById(R.id.subredditTextView);
+            mImageView = itemView.findViewById(R.id.unsubscribeSubredditimageView);
 
-        mImageView.setOnClickListener(this);
+            mImageView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int adapterPosition = getAdapterPosition();
+//          COMPLETED (37) Instead of passing the String for the clicked item, pass the date from the cursor
+            mCursor.moveToPosition(adapterPosition);
+            long id = mCursor.getLong(0);
+                mClickHandler.onClick(id);
+            }
+        }
+
     }
 
-    @Override
-    public void onClick(View view) {
-        int position = getAdapterPosition();
-
-        Log.d("POSITIONTAG", "Position clicked: " + position );
-    }
-}
-
-}

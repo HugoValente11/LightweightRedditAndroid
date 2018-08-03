@@ -114,6 +114,18 @@ public class DatabaseContentProvider extends ContentProvider {
                         null,
                         sortOrder);
                 break;
+            case SUBREDDITS_WITH_ID:
+                String id = uri.getLastPathSegment();
+
+                String[] selectionArguments = new String[]{id};
+                retCursor =  db.query(DatabaseContract.SubRedditsTable.TABLE_NAME,
+                        projection,
+                        DatabaseContract.SubRedditsTable._ID +  " = ?",
+                        selectionArguments,
+                        null,
+                        null,
+                        sortOrder);
+                break;
             // Default exception
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
