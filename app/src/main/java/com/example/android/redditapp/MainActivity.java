@@ -40,6 +40,7 @@ import com.example.android.redditapp.DB.DatabaseContract;
 import com.example.android.redditapp.RecyclerView.RecyclerViewAdapter;
 import com.example.android.redditapp.models.Post.Child;
 import com.example.android.redditapp.models.Post.Post;
+import com.example.android.redditapp.models.PostsID.PostsID;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
@@ -111,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
         loadPost(this, Constants.someRedditPost);
         loadPost(this, Constants.anotherRedditPost);
         loadPost(this, Constants.anotheranotherRedditPost);
+
+
 
     }
 
@@ -326,6 +329,39 @@ public class MainActivity extends AppCompatActivity {
         Log.d("DEBUGCURSOR", info);
 
         return mCursor;
+    }
+
+    public void loadPostsID(final Context mContext, String url) {
+
+
+        StringRequest request = new StringRequest(com.android.volley.Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+
+                List<PostsID> posts = Arrays.asList(gson.fromJson(response, PostsID[].class));
+
+                for (int i=0; i < posts.get(0).getData().getChildren().size(); i++) {
+                   String postID =  posts.get(0).getData().getChildren().get(i).getData().getId();
+                   String postURL = Constants.searchPostsBase + postID + Constants.jsonExtension;
+                    loadPostsID(MainActivity.this, postURL );
+
+                }
+
+            }
+        }
+                , new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(mContext, "Ups, something went wrong...", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        ConnectionManager.getInstance(mContext).add(request);
+
+
     }
 
 }

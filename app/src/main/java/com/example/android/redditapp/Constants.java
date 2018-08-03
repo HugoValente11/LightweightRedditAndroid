@@ -8,6 +8,7 @@ public class Constants {
 
     public static String searchPostsBase = "https://www.reddit.com/r/";
     public static String jsonExtension = "/.json";
+    public static String commentsExtension = "/comments/";
 
     public static String limitTo10= "?&limit=10";
     public static String someRedditPost = "https://www.reddit.com/r/soccer/comments/91ven3/.json" + limitTo10;
