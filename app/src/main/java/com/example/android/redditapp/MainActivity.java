@@ -67,11 +67,6 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerViewAdapter mAdapter;
     private Cursor mPostsCursor;
 
-
-
-
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -90,9 +85,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(myToolbar);
-
         ConstraintLayout constraintLayout = findViewById(R.id.mainActivityLayout);
         constraintLayout.setOnTouchListener(new OnSwipeTouchListener(this) {
             @Override
@@ -103,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSwipeRight() {
-                Toast.makeText(MainActivity.this, "This is working", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -113,18 +104,6 @@ public class MainActivity extends AppCompatActivity {
         thumbnail = findViewById(R.id.thumbnail);
         authorTextView = findViewById(R.id.authorTextView);
         subredditTextView = findViewById(R.id.subredditTextView);
-
-
-
-        // https://stackoverflow.com/questions/7965290/put-and-get-string-array-from-shared-preferences
-        // Get the shared preferences file and add manually then put it again
-        PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
-                .edit().putString(Constants.SHARED_PREFERENES_SUBREDDITS_KEY, "Put this")
-                .putString(Constants.SHARED_PREFERENES_SUBREDDITS_KEY, "Also this")
-
-                .apply();
-
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENES_SUBREDDITS_KEY, Context.MODE_PRIVATE);
 
         setupAdapter();
 
