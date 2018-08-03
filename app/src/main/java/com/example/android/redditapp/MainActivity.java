@@ -121,13 +121,15 @@ public class MainActivity extends AppCompatActivity {
         // Get info from cursor
         String subreddit = mPostsCursor.getString(mPostsCursor.getColumnIndex(DatabaseContract.PostsTable.SUBREDDIT));
         String postID = mPostsCursor.getString(mPostsCursor.getColumnIndex(DatabaseContract.PostsTable.POSTID));
+        Log.d("DBDEBUG", "Delete: " + postID);
+
 
         String id = mPostsCursor.getString(mPostsCursor.getColumnIndex(DatabaseContract.PostsTable._ID));
 
 
         // Delete fromm posts table
         Uri postUri = DatabaseContract.CONTENT_URI_POSTS.buildUpon()
-                .appendPath(id).build();
+                .appendPath(postID).build();
         getContentResolver().delete(postUri, null, null);
 
         // Add to eliminated posts table
@@ -143,10 +145,14 @@ public class MainActivity extends AppCompatActivity {
         if (mPostsCursor.getPosition() + 1 < maximum_position) {
            int position = mPostsCursor.getPosition() + 1;
             mPostsCursor.moveToPosition(position);
+            populateUI();
+
         } else {
-            mPostsCursor.moveToFirst();
+            // Load more posts
+//            mPostsCursor.moveToFirst();
+            Toast.makeText(this, "No more posts to load, maybe you should consider getting some Sun.", Toast.LENGTH_SHORT).show();
+
         }
-        populateUI();
 
     }
 

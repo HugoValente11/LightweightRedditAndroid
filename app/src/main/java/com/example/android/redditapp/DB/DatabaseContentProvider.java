@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.example.android.redditapp.models.Post.Data;
 
@@ -23,10 +24,14 @@ public class DatabaseContentProvider extends ContentProvider {
     public static final int COMMENTS = 200;
     public static final int POSTS_COMMENTS = 300;
     public static final int SUBREDDITS = 400;
+    public static final int ELIMINATED_POSTS = 500;
+
 
 
 
     public static final int POSTS_WITH_ID = 101;
+    public static final int POSTS_WITH_POSTID = 102;
+
     public static final int COMMENTS_WITH_ID = 201;
     public static final int POSTS_COMMENTS_WITH_ID = 301;
     public static final int SUBREDDITS_WITH_ID = 401;
@@ -54,12 +59,14 @@ public class DatabaseContentProvider extends ContentProvider {
          */
         uriMatcher.addURI(DatabaseContract.CONTENT_AUTHORITY, DatabaseContract.PATH_POSTS, POSTS);
         uriMatcher.addURI(DatabaseContract.CONTENT_AUTHORITY, DatabaseContract.PATH_POSTS + "/#", POSTS_WITH_ID);
+        uriMatcher.addURI(DatabaseContract.CONTENT_AUTHORITY, DatabaseContract.PATH_POSTS + "/*", POSTS_WITH_POSTID);
         uriMatcher.addURI(DatabaseContract.CONTENT_AUTHORITY, DatabaseContract.PATH_COMMENTS, COMMENTS);
         uriMatcher.addURI(DatabaseContract.CONTENT_AUTHORITY, DatabaseContract.PATH_COMMENTS + "/#", COMMENTS_WITH_ID);
         uriMatcher.addURI(DatabaseContract.CONTENT_AUTHORITY, DatabaseContract.PATH_POSTS_COMMENTS, POSTS_COMMENTS);
         uriMatcher.addURI(DatabaseContract.CONTENT_AUTHORITY, DatabaseContract.PATH_POSTS_COMMENTS + "/#", POSTS_COMMENTS_WITH_ID);
         uriMatcher.addURI(DatabaseContract.CONTENT_AUTHORITY, DatabaseContract.PATH_SUBREDDITS, SUBREDDITS);
         uriMatcher.addURI(DatabaseContract.CONTENT_AUTHORITY, DatabaseContract.PATH_SUBREDDITS + "/#", SUBREDDITS_WITH_ID);
+        uriMatcher.addURI(DatabaseContract.CONTENT_AUTHORITY, DatabaseContract.PATH_ELIMINATEDPOSTS, ELIMINATED_POSTS);
 
         return uriMatcher;
     }
@@ -186,6 +193,14 @@ public class DatabaseContentProvider extends ContentProvider {
                     throw new SQLException("Couldn't insert data into " + uri);
                 }
                 break;
+            case ELIMINATED_POSTS:
+                _id = db.insert(DatabaseContract.EliminatedPostsTable.TABLE_NAME, null, contentValues);
+                if (_id > 0) {
+                    returnUri = ContentUris.withAppendedId(DatabaseContract.CONTENT_URI_ELIMINATEDPOSTS, _id);
+                } else {
+                    throw new SQLException("Couldn't insert data into " + uri);
+                }
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -212,9 +227,17 @@ public class DatabaseContentProvider extends ContentProvider {
             // Handle the single item case, recognized by the ID included in the URI path
             case POSTS_WITH_ID:
                 // Get the task ID from the URI path
-               id = uri.getPathSegments().get(1);
+               id = uri.getLastPathSegment();
                 // Use selections/selectionArgs to filter for this ID
-                tasksDeleted = db.delete(DatabaseContract.PostsTable.TABLE_NAME, "_id=?", new String[]{id});
+                tasksDeleted = db.delete(DatabaseContract.PostsTable.TABLE_NAME, "id=?", new String[]{id});
+                break;
+            case POSTS_WITH_POSTID:
+                // Get the task ID from the URI path
+                id = uri.getLastPathSegment();
+                Log.d("DBDEBUG", "Delete: " + id);
+                // Use selections/selectionArgs to filter for this ID
+                tasksDeleted = db.delete(DatabaseContract.CommentsTable.TABLE_NAME, "postid=?", new String[]{id});
+                tasksDeleted = tasksDeleted + db.delete(DatabaseContract.PostsTable.TABLE_NAME, "postid=?", new String[]{id});
                 break;
             case SUBREDDITS_WITH_ID:
                 // Get the task ID from the URI path
