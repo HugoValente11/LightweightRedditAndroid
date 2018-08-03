@@ -22,11 +22,15 @@ public class DatabaseContentProvider extends ContentProvider {
     public static final int POSTS = 100;
     public static final int COMMENTS = 200;
     public static final int POSTS_COMMENTS = 300;
+    public static final int SUBREDDITS = 400;
+
 
 
     public static final int POSTS_WITH_ID = 101;
     public static final int COMMENTS_WITH_ID = 201;
     public static final int POSTS_COMMENTS_WITH_ID = 301;
+    public static final int SUBREDDITS_WITH_ID = 401;
+
 
 
 
@@ -54,6 +58,8 @@ public class DatabaseContentProvider extends ContentProvider {
         uriMatcher.addURI(DatabaseContract.CONTENT_AUTHORITY, DatabaseContract.PATH_COMMENTS + "/#", COMMENTS_WITH_ID);
         uriMatcher.addURI(DatabaseContract.CONTENT_AUTHORITY, DatabaseContract.PATH_POSTS_COMMENTS, POSTS_COMMENTS);
         uriMatcher.addURI(DatabaseContract.CONTENT_AUTHORITY, DatabaseContract.PATH_POSTS_COMMENTS + "/#", POSTS_COMMENTS_WITH_ID);
+        uriMatcher.addURI(DatabaseContract.CONTENT_AUTHORITY, DatabaseContract.PATH_SUBREDDITS, SUBREDDITS);
+        uriMatcher.addURI(DatabaseContract.CONTENT_AUTHORITY, DatabaseContract.PATH_SUBREDDITS + "/#", SUBREDDITS_WITH_ID);
 
         return uriMatcher;
     }
@@ -92,6 +98,15 @@ public class DatabaseContentProvider extends ContentProvider {
                 break;
             case COMMENTS:
                 retCursor =  db.query(DatabaseContract.CommentsTable.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+                break;
+            case SUBREDDITS:
+                retCursor =  db.query(DatabaseContract.SubRedditsTable.TABLE_NAME,
                         projection,
                         selection,
                         selectionArgs,
@@ -143,10 +158,18 @@ public class DatabaseContentProvider extends ContentProvider {
                     throw new SQLException("Couldn't insert data into " + uri);
                 }
                 break;
-            case POSTS_COMMENTS:
-                _id = db.insert(DatabaseContract.PostsCommentsTable.TABLE_NAME, null, contentValues);
+//            case POSTS_COMMENTS:
+//                _id = db.insert(DatabaseContract.PostsCommentsTable.TABLE_NAME, null, contentValues);
+//                if (_id > 0) {
+//                    returnUri = ContentUris.withAppendedId(DatabaseContract.CONTENT_URI_POSTS_COMMENTS, _id);
+//                } else {
+//                    throw new SQLException("Couldn't insert data into " + uri);
+//                }
+//                break;
+            case SUBREDDITS:
+                _id = db.insert(DatabaseContract.SubRedditsTable.TABLE_NAME, null, contentValues);
                 if (_id > 0) {
-                    returnUri = ContentUris.withAppendedId(DatabaseContract.CONTENT_URI_POSTS_COMMENTS, _id);
+                    returnUri = ContentUris.withAppendedId(DatabaseContract.CONTENT_URI_SUBREDDITS, _id);
                 } else {
                     throw new SQLException("Couldn't insert data into " + uri);
                 }

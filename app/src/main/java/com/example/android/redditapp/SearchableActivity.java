@@ -1,9 +1,12 @@
 package com.example.android.redditapp;
 
 import android.app.SearchManager;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -17,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.android.redditapp.Connection.ConnectionManager;
+import com.example.android.redditapp.DB.DatabaseContract;
 import com.example.android.redditapp.ListAdapterSubReddits.CustomSearchAdapter;
 import com.example.android.redditapp.models.Subreddit.SubReddit;
 import com.google.gson.Gson;
@@ -41,10 +45,15 @@ public class SearchableActivity extends AppCompatActivity {
         // Add click listener add adapter
         subRedditsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
+            // Add here the subreddit
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String subreddit = ((TextView)view).getText().toString();
                 Toast.makeText(SearchableActivity.this,
-                        "clicked search result item is: "+ ((TextView)view).getText(),
+                        "clicked search result item is: "+ subreddit,
                         Toast.LENGTH_SHORT).show();
+                checkIfInDBIfNotAdd(subreddit
+                );
+
             }
         });
 
@@ -128,6 +137,46 @@ public class SearchableActivity extends AppCompatActivity {
 
         ConnectionManager.getInstance(this).add(request);
 
+    }
+
+    private void checkIfInDBIfNotAdd (String subreddit) {
+
+        String subredditFromCursor;
+
+        Cursor mCursor =
+                getContentResolver().query(DatabaseContract.CONTENT_URI_SUBREDDITS, null, null, null, null);
+
+        boolean isInDB = false;
+
+            // If the cursor is empty add all posts
+            if(((mCursor != null) && (mCursor.getCount() > 0))) {
+
+
+                mCursor.moveToFirst();
+
+
+
+                do{
+                    subredditFromCursor = mCursor.getString(mCursor.getColumnIndex(DatabaseContract.SubRedditsTable.SUBREDDIT));
+                    Log.d("THIS", "thing" + subreddit);
+                    if (subredditFromCursor.equals(subreddit)) {
+                        Log.d("I'm alive!", "... sort of. beep boop.");
+                        isInDB = true;
+                    }
+                }while ( mCursor.moveToNext() );
+
+            }
+
+            if (!isInDB) {
+
+                ContentValues cv = new ContentValues();
+
+                cv.put(DatabaseContract.SubRedditsTable.SUBREDDIT, subreddit);
+
+
+                Uri uri = getContentResolver().insert(DatabaseContract.CONTENT_URI_SUBREDDITS, cv);
+
+            }
     }
 }
 

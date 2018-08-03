@@ -62,6 +62,10 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
             ") REFERENCES " + DatabaseContract.PostsTable.TABLE_NAME +
             " (" + DatabaseContract.PostsTable.POSTID + ") )";
 
+    // Create POST TABLE SENTENCE
+    private static final String CREATE_SUBREDDITS_TABLE = "CREATE TABLE " +
+            DatabaseContract.SubRedditsTable.TABLE_NAME + " (" +
+            DatabaseContract.SubRedditsTable.SUBREDDIT + TEXT_TYPE + ")";
 
 
 
@@ -73,7 +77,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(CREATE_POST_TABLE);
         sqLiteDatabase.execSQL(CREATE_COMMENT_TABLE);
-        sqLiteDatabase.execSQL(CREATE_POST_COMMENT);
+        sqLiteDatabase.execSQL(CREATE_SUBREDDITS_TABLE);
 
 
 
