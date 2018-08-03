@@ -126,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
             mPostsCursor.moveToFirst();
         }
         populateUI();
-        mAdapter.notifyDataSetChanged();
 
     }
 

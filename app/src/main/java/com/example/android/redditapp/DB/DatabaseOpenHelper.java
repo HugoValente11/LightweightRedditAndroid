@@ -42,6 +42,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     // Create POST TABLE SENTENCE
     private static final String CREATE_POST_TABLE = "CREATE TABLE " +
             DatabaseContract.PostsTable.TABLE_NAME + " (" +
+//            DatabaseContract.PostsTable._ID + " INTEGER AUNTOINCREMENT, " +
             DatabaseContract.PostsTable.SUBREDDIT + TEXT_TYPE + COMMA +
             DatabaseContract.PostsTable.POSTID + TEXT_TYPE + COMMA +
             DatabaseContract.PostsTable.TITLE + TEXT_TYPE + COMMA +
@@ -54,6 +55,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     // Create COMMENT TABLE SENTENCE
     private static final String CREATE_COMMENT_TABLE = "CREATE TABLE " +
             DatabaseContract.CommentsTable.TABLE_NAME + " (" +
+//            DatabaseContract.CommentsTable._ID + " INTEGER PRIMARY KEY, " +
             DatabaseContract.CommentsTable.COMMENTID + TEXT_TYPE + COMMA +
             DatabaseContract.CommentsTable.POSTID + TEXT_TYPE + COMMA +
             DatabaseContract.CommentsTable.AUTHOR + TEXT_TYPE + COMMA +

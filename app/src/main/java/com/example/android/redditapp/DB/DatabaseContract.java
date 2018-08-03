@@ -46,6 +46,14 @@ public class DatabaseContract {
 
     }
 
+    public abstract class EliminatedPostsTable implements BaseColumns{
+
+        public static final String TABLE_NAME = "eliminated_posts_table";
+
+        public static final String SUBREDDIT = "subreddit";
+        public static final String POSTID = "postid";
+    }
+
     public abstract class CommentsTable implements BaseColumns{
 
         public static final String TABLE_NAME = "comments_table";
