@@ -9,6 +9,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,6 +25,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.android.redditapp.Connection.ConnectionManager;
 import com.example.android.redditapp.DB.DatabaseContract;
 import com.example.android.redditapp.ListAdapterSubReddits.CustomSearchAdapter;
+import com.example.android.redditapp.RecyclerView.SubscribedSubredditsRecyclerViewAdapter;
 import com.example.android.redditapp.models.Subreddit.SubReddit;
 import com.google.gson.Gson;
 
@@ -29,29 +33,43 @@ import java.util.ArrayList;
 import java.util.List;
 
 // http://www.zoftino.com/android-search-dialog-with-search-suggestions-example
-public class SearchableActivity extends AppCompatActivity {
-    private ListView subRedditsListView;
+public class SearchableActivity extends AppCompatActivity implements SearchClickHandler{
+    private RecyclerView mRecyclerView;
+    private CustomSearchAdapter mAdapter;
+    private static SearchClickHandler mClickHandler;
+
+    @Override
+    public void onClick(int position) {
+        Toast.makeText(this, "Position clicked: " + position, Toast.LENGTH_SHORT).show();
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searchable);
 
-        subRedditsListView = findViewById(R.id.subredditsListView);
+        mRecyclerView = findViewById(R.id.subredditsListView);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(layoutManager);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
+                layoutManager.getOrientation());
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
 
         Log.d("TAG", "I'm alive... Sort of.");
 
-        // Add click listener add adapter
-        subRedditsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            // Add here the subreddit
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String subreddit = ((TextView)view).getText().toString();
-
-                checkIfInDBIfNotAdd(subreddit);
-
-            }
-        });
+//        // Add click listener add adapter
+//        subRedditsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            // Add here the subreddit
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                String subreddit = ((TextView)view).getText().toString();
+//
+//                checkIfInDBIfNotAdd(subreddit);
+//
+//            }
+//        });
 
         handleSearch();
     }
@@ -98,22 +116,12 @@ public class SearchableActivity extends AppCompatActivity {
 
                 SubReddit subreddit = gson.fromJson(response, SubReddit.class);
                 List<String> subReddits= new ArrayList<>();
-                StringBuilder stringBuilder = new StringBuilder();
 
-
-                for (int i = 0; i < subreddit.getData().getChildren().size(); i++) {
+                for (int i=0; i < subreddit.getData().getChildren().size(); i++) {
                     subReddits.add(subreddit.getData().getChildren().get(i).getData().getDisplayName());
-                    stringBuilder.append(subReddits.get(i) + "\n");
-
                 }
-
-                String subreddts = stringBuilder.toString();
-                Log.d("Subreddits size", "Subreddits size: " + subreddts);
-
-                            CustomSearchAdapter adapter = new CustomSearchAdapter(SearchableActivity.this,
-                    android.R.layout.simple_dropdown_item_1line,
-                    subReddits);
-            subRedditsListView.setAdapter(adapter);
+                mAdapter = new CustomSearchAdapter(SearchableActivity.this, SearchableActivity.this::onClick, subReddits);
+                mRecyclerView.setAdapter(mAdapter);
 
             }
         }
@@ -168,6 +176,7 @@ public class SearchableActivity extends AppCompatActivity {
                 Toast.makeText(this, "Subreddit successfully added.", Toast.LENGTH_SHORT).show();
             }
     }
+
 }
 
 

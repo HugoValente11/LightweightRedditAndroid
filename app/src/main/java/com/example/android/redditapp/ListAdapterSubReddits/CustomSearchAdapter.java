@@ -1,47 +1,84 @@
 package com.example.android.redditapp.ListAdapterSubReddits;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.example.android.redditapp.DB.DatabaseContract;
+import com.example.android.redditapp.R;
+import com.example.android.redditapp.RecyclerView.SubscribedSubredditsRecyclerViewAdapter;
+import com.example.android.redditapp.SearchClickHandler;
+
 import java.util.List;
 
-public class CustomSearchAdapter extends ArrayAdapter {
-    private List<String> dataList;
+public class CustomSearchAdapter extends RecyclerView.Adapter<CustomSearchAdapter.ViewHolder> {
+    // Keeps track of the context and list of images to display
     private Context mContext;
-    private int searchResultItemLayout;
+    private List<String> resultsList;
+    private SearchClickHandler mClickHandler;
 
-    public CustomSearchAdapter(Context context, int resource, List<String> storeSourceDataLst) {
-        super(context, resource, storeSourceDataLst);
-        dataList = storeSourceDataLst;
+
+
+
+    // Provide a suitable constructor (depends on the kind of dataset)
+    public CustomSearchAdapter(Context context,SearchClickHandler clickHandler, List<String> resultsList) {
         mContext = context;
-        searchResultItemLayout = resource;
+        this.mClickHandler = clickHandler;
+        this.resultsList = resultsList;
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // create a new view
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.recycler_view_row_searchable, parent, false);
+
+        return new ViewHolder(view);
+
     }
 
     @Override
-    public int getCount() {
-        return dataList.size();
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.mTextView.setText(resultsList.get(position));
     }
 
+
     @Override
-    public String getItem(int position) {
-        return dataList.get(position);
+    public int getItemCount() {
+       return resultsList.size();
     }
 
-    @Override
-    public View getView(int position, View view, @NonNull ViewGroup parent) {
 
-        if (view == null) {
-            view = LayoutInflater.from(parent.getContext())
-                    .inflate(searchResultItemLayout, parent, false);
+
+    // Provide a reference to the views for each data item
+// Complex data items may need more than one view per item, and
+// you provide access to all the views for a data item in a view holder
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        // each data item is just a string in this case
+        public TextView mTextView;
+
+        ViewHolder(View itemView) {
+            super(itemView);
+            mTextView = itemView.findViewById(R.id.resultSubReddit);
+
+            itemView.setOnClickListener(this);
+
         }
 
-        TextView resultItem = (TextView) view.findViewById(android.R.id.text1);
-        resultItem.setText(getItem(position));
-        return view;
+        @Override
+        public void onClick(View v) {
+            int adapterPosition = getAdapterPosition();
+
+            mClickHandler.onClick(adapterPosition);
+        }
     }
+
+
 }
