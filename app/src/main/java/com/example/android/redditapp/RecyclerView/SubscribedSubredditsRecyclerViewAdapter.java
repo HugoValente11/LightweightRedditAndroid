@@ -32,9 +32,8 @@ public class SubscribedSubredditsRecyclerViewAdapter extends RecyclerView.Adapte
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public SubscribedSubredditsRecyclerViewAdapter(Context context, Cursor cursor, CursorAdapterOnClickHandler clickHandler) {
+    public SubscribedSubredditsRecyclerViewAdapter(Context context,CursorAdapterOnClickHandler clickHandler) {
         mContext = context;
-        mCursor = cursor;
         mClickHandler = clickHandler;
     }
 
@@ -65,6 +64,26 @@ public class SubscribedSubredditsRecyclerViewAdapter extends RecyclerView.Adapte
             return 0;
         }
         return mCursor.getCount();
+    }
+
+
+    /**
+     * When data changes and a re-query occurs, this function swaps the old Cursor
+     * with a newly updated Cursor (Cursor c) that is passed in.
+     */
+    public Cursor swapCursor(Cursor c) {
+        // check if this cursor is the same as the previous cursor (mCursor)
+        if (mCursor == c) {
+            return null; // bc nothing has changed
+        }
+        Cursor temp = mCursor;
+        this.mCursor = c; // new cursor value assigned
+
+        //check if this is a valid cursor, then update the cursor
+        if (c != null) {
+            this.notifyDataSetChanged();
+        }
+        return temp;
     }
 
     // Provide a reference to the views for each data item
