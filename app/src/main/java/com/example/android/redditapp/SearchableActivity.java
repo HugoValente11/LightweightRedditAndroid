@@ -48,11 +48,8 @@ public class SearchableActivity extends AppCompatActivity {
             // Add here the subreddit
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String subreddit = ((TextView)view).getText().toString();
-                Toast.makeText(SearchableActivity.this,
-                        "clicked search result item is: "+ subreddit,
-                        Toast.LENGTH_SHORT).show();
-                checkIfInDBIfNotAdd(subreddit
-                );
+
+                checkIfInDBIfNotAdd(subreddit);
 
             }
         });
@@ -160,7 +157,7 @@ public class SearchableActivity extends AppCompatActivity {
                     subredditFromCursor = mCursor.getString(mCursor.getColumnIndex(DatabaseContract.SubRedditsTable.SUBREDDIT));
                     Log.d("THIS", "thing" + subreddit);
                     if (subredditFromCursor.equals(subreddit)) {
-                        Log.d("I'm alive!", "... sort of. beep boop.");
+                        Toast.makeText(this, "Subreddit already added.", Toast.LENGTH_SHORT).show();
                         isInDB = true;
                     }
                 }while ( mCursor.moveToNext() );
@@ -175,7 +172,7 @@ public class SearchableActivity extends AppCompatActivity {
 
 
                 Uri uri = getContentResolver().insert(DatabaseContract.CONTENT_URI_SUBREDDITS, cv);
-
+                Toast.makeText(this, "Subreddit successfully added.", Toast.LENGTH_SHORT).show();
             }
     }
 }
