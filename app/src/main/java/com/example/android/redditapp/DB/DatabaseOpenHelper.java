@@ -51,6 +51,13 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
             DatabaseContract.PostsTable.SELFTEXT + TEXT_TYPE + COMMA +
             "PRIMARY KEY (" + DatabaseContract.PostsTable.POSTID + "))";
 
+    // Create ELIMINATED POST TABLE SENTENCE
+    private static final String CREATE_ELIMINATED_POST_TABLE = "CREATE TABLE " +
+            DatabaseContract.EliminatedPostsTable.TABLE_NAME + " (" +
+            DatabaseContract.EliminatedPostsTable.POSTID + TEXT_TYPE + COMMA +
+            DatabaseContract.EliminatedPostsTable.SUBREDDIT + TEXT_TYPE + COMMA +
+            "PRIMARY KEY (" + DatabaseContract.EliminatedPostsTable.POSTID + "))";
+
 
     // Create COMMENT TABLE SENTENCE
     private static final String CREATE_COMMENT_TABLE = "CREATE TABLE " +
@@ -81,8 +88,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_POST_TABLE);
         sqLiteDatabase.execSQL(CREATE_COMMENT_TABLE);
         sqLiteDatabase.execSQL(CREATE_SUBREDDITS_TABLE);
-
-
+        sqLiteDatabase.execSQL(CREATE_ELIMINATED_POST_TABLE);
 
     }
 
