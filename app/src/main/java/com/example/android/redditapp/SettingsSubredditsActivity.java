@@ -6,13 +6,15 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
 
 import com.example.android.redditapp.DB.DatabaseContract;
 import com.example.android.redditapp.RecyclerView.RecyclerViewAdapter;
 import com.example.android.redditapp.RecyclerView.SubscribedSubredditsRecyclerViewAdapter;
 
-public class SettingsSubredditsActivity extends AppCompatActivity {
+public class SettingsSubredditsActivity extends AppCompatActivity implements SubscribedSubredditsRecyclerViewAdapter.RecyclerViewClickHandler{
 
     RecyclerView mRecyclerView;
     SubscribedSubredditsRecyclerViewAdapter mAdapter;
@@ -39,5 +41,10 @@ public class SettingsSubredditsActivity extends AppCompatActivity {
 
         mAdapter = new SubscribedSubredditsRecyclerViewAdapter(this, mCursor);
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onClick(int position) {
+        Log.d("TAG", "This position was clicked: " + position);
     }
 }

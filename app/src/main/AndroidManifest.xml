@@ -49,7 +49,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.android.redditapp.MainActivity" />
         </activity>
-        <activity android:name=".SettingsSubredditsActivity"></activity>
+        <activity android:name=".SettingsSubredditsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.android.redditapp.MainActivity" />
+
+        </activity>
     </application>
 
 </manifest>

@@ -87,8 +87,6 @@ public static class ViewHolder extends RecyclerView.ViewHolder implements View.O
     public void onClick(View view) {
         int position = getAdapterPosition();
 
-
-
         Log.d("POSITIONTAG", "Position clicked: " + position );
     }
 }
