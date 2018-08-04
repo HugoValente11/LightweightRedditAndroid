@@ -46,6 +46,8 @@ import com.example.android.redditapp.models.Post.Post;
 import com.example.android.redditapp.models.PostsID.PostsID;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
@@ -54,6 +56,7 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
+    private static Tracker mTracker;
 
     private TextView titleTextView;
     private TextView bodyTextView;
@@ -117,6 +120,19 @@ public class MainActivity extends AppCompatActivity {
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build();
         mAdView.loadAd(adRequest);
+
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+
+        Log.i("ANALYTICS", "Setting screen name: " + this.getClass().getSimpleName());
+        mTracker.setScreenName("Image~" + this.getClass().getSimpleName());
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("Share")
+                .build());
 
        ViewGroup root =  findViewById(R.id.mainActivityLayout);
 

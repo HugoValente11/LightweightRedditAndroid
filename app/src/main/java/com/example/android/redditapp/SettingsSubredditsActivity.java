@@ -21,8 +21,12 @@ import android.widget.Toast;
 import com.example.android.redditapp.DB.DatabaseContract;
 import com.example.android.redditapp.RecyclerView.RecyclerViewAdapter;
 import com.example.android.redditapp.RecyclerView.SubscribedSubredditsRecyclerViewAdapter;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
-public class SettingsSubredditsActivity extends AppCompatActivity implements SubscribedSubredditsRecyclerViewAdapter.CursorAdapterOnClickHandler, LoaderManager.LoaderCallbacks<Cursor> {
+public class SettingsSubredditsActivity extends AppCompatActivity
+        implements SubscribedSubredditsRecyclerViewAdapter.CursorAdapterOnClickHandler, LoaderManager.LoaderCallbacks<Cursor> {
+    private static Tracker mTracker;
 
     RecyclerView mRecyclerView;
     SubscribedSubredditsRecyclerViewAdapter mAdapter;
@@ -33,6 +37,19 @@ public class SettingsSubredditsActivity extends AppCompatActivity implements Sub
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings_subreddits);
+
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+
+        Log.i("ANALYTICS", "Setting screen name: " + this.getClass().getSimpleName());
+        mTracker.setScreenName("Image~" + this.getClass().getSimpleName());
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("Share")
+                .build());
 
         mRecyclerView = findViewById(R.id.subscribedSubredditsListView);
 
