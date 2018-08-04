@@ -3,10 +3,10 @@ package com.example.android.redditapp;
 public class Constants {
 
     public static String subRedditBase = "https://www.reddit.com/subreddits/search.json?q=";
-    public static String limitTo5= "&limit=5";
+    public static String limitTo5= "?&limit=5";
     public static String soccerSubReddit = subRedditBase + "soccer" + limitTo5;
 
-    public static String searchPostsBase = "https://www.reddit.com/r/";
+    public static String searchPostsBase = "https://www.reddit.com/r";
     public static String jsonExtension = "/.json";
     public static String commentsExtension = "/comments/";
 

@@ -132,12 +132,13 @@ public class MainActivity extends AppCompatActivity {
 
         setupAdapter();
 
-        loadPostsID(this, Constants.subRedditBase);
+        String url = Constants.searchPostsBase + "/soccer" + Constants.jsonExtension + Constants.limitTo5;
+        loadPostsID(this, url);
 
-        loadPost(this, Constants.someAskRedditPost);
-        loadPost(this, Constants.someRedditPost);
-        loadPost(this, Constants.anotherRedditPost);
-        loadPost(this, Constants.anotheranotherRedditPost);
+//        loadPost(this, Constants.someAskRedditPost);
+//        loadPost(this, Constants.someRedditPost);
+//        loadPost(this, Constants.anotherRedditPost);
+//        loadPost(this, Constants.anotheranotherRedditPost);
 
 
 
@@ -405,11 +406,13 @@ public class MainActivity extends AppCompatActivity {
 
                 Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
-                List<PostsID> posts = Arrays.asList(gson.fromJson(response, PostsID[].class));
+                PostsID posts = gson.fromJson(response, PostsID.class);
 
-                for (int i=0; i < posts.get(0).getData().getChildren().size(); i++) {
-                   String postID =  posts.get(0).getData().getChildren().get(i).getData().getId();
-                   String postURL = Constants.searchPostsBase + postID + Constants.jsonExtension;
+
+                for (int i=0; i < posts.getData().getChildren().size(); i++) {
+                   String postID = posts.getData().getChildren().get(i).getData().getId();
+                   String postURL = Constants.searchPostsBase + "/soccer" +  Constants.commentsExtension + postID + Constants.jsonExtension;
+                   Log.d("POSTURL", postURL);
                     loadPost(MainActivity.this, postURL );
 
                 }
