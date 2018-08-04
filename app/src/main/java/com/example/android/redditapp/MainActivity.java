@@ -135,13 +135,6 @@ public class MainActivity extends AppCompatActivity {
         String url = Constants.searchPostsBase + "/soccer" + Constants.jsonExtension + Constants.limitTo5;
         loadPostsID(this, url);
 
-//        loadPost(this, Constants.someAskRedditPost);
-//        loadPost(this, Constants.someRedditPost);
-//        loadPost(this, Constants.anotherRedditPost);
-//        loadPost(this, Constants.anotheranotherRedditPost);
-
-
-
     }
 
     private void swipeCursor() {
@@ -238,20 +231,6 @@ public class MainActivity extends AppCompatActivity {
 
                 List<Post> posts = Arrays.asList(gson.fromJson(response, Post[].class));
 
-//                List<String> comments = new ArrayList<>();
-//                Log.d("TAG", "comments size: " + posts.get(1).getData().getChildren().size());
-//                for (int i = 0; i< posts.get(1).getData().getChildren().size(); i++) {
-//                   String comment = posts.get(1).getData().getChildren().get(i).getData().getBody();
-//                   if (! TextUtils.isEmpty(comment)) {
-//                       comments.add(comment);
-//                       Log.d("TAG",  "Comments after added to array list: " + comments.get(i));
-//
-//                   }
-//                }
-//                Log.d("TAG", "comments array list size: " + comments.size());
-
-
-
                 addPostsToDb(posts);
                 populateUI();
 
@@ -321,13 +300,16 @@ public class MainActivity extends AppCompatActivity {
             // If the cursor is empty add all posts
             if(((mCursor != null) && (mCursor.getCount() > 0))) {
 
-
                 mCursor.moveToFirst();
+                Log.d("FIRSTPOSITION", "Position: " + mCursor.getPosition());
+                String info = DatabaseUtils.dumpCursorToString(mCursor);
+                Log.d("CHECKINGCURSOR", info);
 
                 String postIDFromCursor = mCursor.getString(mCursor.getColumnIndex(DatabaseContract.PostsTable.POSTID));
                 String postIDFromPostList = postList.get(0).getData().getChildren().get(0).getData().getId();
 
                 do{
+                    Log.d("SECONDPOSITION", "Position: " + mCursor.getPosition());
                     postIDFromCursor = mCursor.getString(mCursor.getColumnIndex(DatabaseContract.PostsTable.POSTID));
                     Log.d("THIS", "thing" + postIDFromCursor);
                     if (postIDFromPostList.equals(postIDFromCursor)) {
@@ -371,13 +353,31 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // Only gets posts the user still hasn't seen
+    private Cursor getAllSeenPosts() {
+        // fazer query de todos os filmes de uma categoria
+        Cursor mCursor;
+        String[] selectionArgs = {"0"};
+        String selection = DatabaseContract.PostsTable.POSTSEEN + " = ?";
+        mCursor = getContentResolver().query(DatabaseContract.CONTENT_URI_POSTS, null, selection, selectionArgs, null);
+
+        String info = DatabaseUtils.dumpCursorToString(mCursor);
+        Log.d("DEBUGCURSOR", info);
+        Log.d("AllPOSTS", "All posts cursor count: " + mCursor.getCount());
+
+        return mCursor;
+    }
+
+    // Only gets posts the user still hasn't seen
     private Cursor getAllPosts() {
         // fazer query de todos os filmes de uma categoria
         Cursor mCursor;
+
         mCursor = getContentResolver().query(DatabaseContract.CONTENT_URI_POSTS, null, null, null, null);
 
         String info = DatabaseUtils.dumpCursorToString(mCursor);
         Log.d("DEBUGCURSOR", info);
+        Log.d("AllPOSTS", "All posts cursor count: " + mCursor.getCount());
 
         return mCursor;
     }
