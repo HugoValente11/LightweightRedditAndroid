@@ -122,7 +122,6 @@ public class Data_ {
     @Expose
     private String thumbnail;
     @SerializedName("edited")
-    @Expose
     private Boolean edited;
     @SerializedName("author_flair_css_class")
     @Expose

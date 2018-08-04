@@ -95,7 +95,8 @@ public class DatabaseContentProvider extends ContentProvider {
         switch (match) {
             // Query for the tasks directory
             case POSTS:
-                retCursor =  db.query(DatabaseContract.PostsTable.TABLE_NAME,
+                retCursor =  db.query(
+                        DatabaseContract.PostsTable.TABLE_NAME,
                         projection,
                         selection,
                         selectionArgs,

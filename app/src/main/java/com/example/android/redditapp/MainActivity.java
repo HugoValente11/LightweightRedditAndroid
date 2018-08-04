@@ -22,10 +22,13 @@ import android.support.v7.widget.RecyclerViewAccessibilityDelegate;
 import android.support.v7.widget.Toolbar;
 import android.telecom.Call;
 import android.text.TextUtils;
+import android.transition.TransitionManager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -44,6 +47,7 @@ import com.example.android.redditapp.models.PostsID.PostsID;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
+import com.transitionseverywhere.Slide;
 
 import org.w3c.dom.Text;
 
@@ -69,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     private Cursor mPostsCursor;
     private SearchView searchView;
     private String querySearchView;
-    private String currentSubreddit;
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -108,14 +112,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+       ViewGroup root =  findViewById(R.id.mainActivityLayout);
+
         if (savedInstanceState != null) {
             querySearchView = savedInstanceState.getString("svkey");
         }
 
+//        this.overridePendingTransition(R.anim.slide, R.anim.slide);
         ConstraintLayout constraintLayout = findViewById(R.id.mainActivityLayout);
         constraintLayout.setOnTouchListener(new OnSwipeTouchListener(this) {
             @Override
             public void onSwipeLeft() {
+                android.transition.Slide slide = new android.transition.Slide();
+                slide.setSlideEdge(Gravity.RIGHT);
+                TransitionManager.beginDelayedTransition(root, slide);
                 swipeCursor();
             }
 
@@ -140,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
             mFollowingSubReddits.moveToFirst();
 
             do {
-                currentSubreddit = mFollowingSubReddits.getString(mFollowingSubReddits.getColumnIndex(DatabaseContract.SubRedditsTable.SUBREDDIT));
+               String currentSubreddit = mFollowingSubReddits.getString(mFollowingSubReddits.getColumnIndex(DatabaseContract.SubRedditsTable.SUBREDDIT));
                 Toast.makeText(this, "Subreddit: " + currentSubreddit, Toast.LENGTH_SHORT).show();
 
 //            populateUI();
@@ -150,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
             } while (mFollowingSubReddits.moveToNext());
 
         }
+        populateUI();
     }
 
     private void swipeCursor() {
@@ -376,8 +387,9 @@ public class MainActivity extends AppCompatActivity {
     private Cursor getAllNotSeenPosts() {
         // fazer query de todos os filmes de uma categoria
         Cursor mCursor;
-        String[] selectionArgs = {"0"};
-        String selection = DatabaseContract.PostsTable.POSTSEEN + " = ?";
+        String seen = "0";
+        String[] selectionArgs = new String[]{"0"};
+        String selection = DatabaseContract.PostsTable.POSTSEEN +  " = ?";
         mCursor = getContentResolver().query(DatabaseContract.CONTENT_URI_POSTS, null, selection, selectionArgs, null);
 
         String info = DatabaseUtils.dumpCursorToString(mCursor);

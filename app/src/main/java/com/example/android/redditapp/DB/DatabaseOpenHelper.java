@@ -46,10 +46,10 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
             DatabaseContract.PostsTable.SUBREDDIT + TEXT_TYPE + COMMA +
             DatabaseContract.PostsTable.POSTID + TEXT_TYPE + COMMA +
             DatabaseContract.PostsTable.TITLE + TEXT_TYPE + COMMA +
+            DatabaseContract.PostsTable.POSTSEEN + INTEGER_TYPE + DEFAULT_0 + COMMA +
             DatabaseContract.PostsTable.IMAGELINK + TEXT_TYPE + COMMA +
             DatabaseContract.PostsTable.AUTHOR + TEXT_TYPE + COMMA +
             DatabaseContract.PostsTable.SELFTEXT + TEXT_TYPE + COMMA +
-            DatabaseContract.PostsTable.POSTSEEN + INTEGER_TYPE + DEFAULT_0 + COMMA +
             "PRIMARY KEY (" + DatabaseContract.PostsTable.POSTID + "))";
 
 
