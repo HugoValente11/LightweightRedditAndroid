@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -29,7 +30,7 @@ public class PostWidget extends AppWidgetProvider {
         PendingIntent pendingIntent =
                 PendingIntent.getActivity(context,0,intent,0);
 
-        if (title.equals("")) {
+        if (TextUtils.isEmpty(title)) {
             title = "Nothing to show";
         }
 
