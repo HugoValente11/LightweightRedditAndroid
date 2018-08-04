@@ -82,4 +82,8 @@
     <string name="settings">Settings</string>
     <string name="thumbnail">Thumbnail</string>
     <string name="search_title">Search Subreddits</string>
+    <string name="ad_content_description">Ad</string>
+    <string name="subreddit_content_description">SubReddit</string>
+    <string name="author_content_description">Author</string>
+    <string name="title_content_description">Title</string>
 </resources>

@@ -9,6 +9,7 @@
 
 
     <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:contentDescription="@string/ad_content_description"
         android:id="@+id/adView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,9 +22,10 @@
         ads:adUnitId="@string/banner_ad_unit_id"
         ads:layout_constraintBottom_toBottomOf="parent"
         ads:layout_constraintEnd_toEndOf="parent"
-        ads:layout_constraintStart_toStartOf="parent"></com.google.android.gms.ads.AdView>
+        ads:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
+        android:contentDescription="@string/subreddit_content_description"
         android:id="@+id/subredditTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,6 +50,7 @@
         app:srcCompat="@drawable/image_error" />
 
     <TextView
+        android:contentDescription="@string/author_content_description"
         android:id="@+id/authorTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -72,12 +75,12 @@
         app:layout_constraintTop_toTopOf="@+id/thumbnail">
 
         <TextView
+            android:contentDescription="@string/title_content_description"
             android:id="@+id/titleTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-
             android:layout_marginTop="8dp"
             android:textAppearance="@android:style/TextAppearance.Material.Small"
             app:layout_constraintEnd_toEndOf="parent"
