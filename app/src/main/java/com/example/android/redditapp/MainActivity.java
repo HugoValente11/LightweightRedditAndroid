@@ -132,6 +132,8 @@ public class MainActivity extends AppCompatActivity {
 
         setupAdapter();
 
+        populateUI();
+
         String url = Constants.searchPostsBase + "/soccer" + Constants.jsonExtension + Constants.limitTo5;
         loadPostsID(this, url);
 
@@ -232,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
                 List<Post> posts = Arrays.asList(gson.fromJson(response, Post[].class));
 
                 addPostsToDb(posts);
-                populateUI();
+//                populateUI();
 
             }
         }
@@ -251,38 +253,42 @@ public class MainActivity extends AppCompatActivity {
 
     private void populateUI() {
         if (mPostsCursor == null) {
-            mPostsCursor = getAllPosts();
+            mPostsCursor = getAllNotSeenPosts();
         }
-        if (mPostsCursor.getPosition() == -1) {
+
+        if (mPostsCursor.getCount() == 0) {
+            // Load new posts
+            Toast.makeText(this, "No more posts to show", Toast.LENGTH_SHORT).show();
+        } else if (mPostsCursor.getPosition() == -1) {
             mPostsCursor.moveToFirst();
         }
 
+        if (mPostsCursor.getCount() != 0) {
+            subredditText = mPostsCursor.getString(mPostsCursor.getColumnIndex(DatabaseContract.PostsTable.SUBREDDIT));
+            subredditTextView.setText(subredditText);
 
+            authorText = mPostsCursor.getString(mPostsCursor.getColumnIndex(DatabaseContract.PostsTable.AUTHOR));
+            authorTextView.setText(authorText);
 
-        subredditText = mPostsCursor.getString(mPostsCursor.getColumnIndex(DatabaseContract.PostsTable.SUBREDDIT));
-        subredditTextView.setText(subredditText);
+            title = mPostsCursor.getString(mPostsCursor.getColumnIndex(DatabaseContract.PostsTable.TITLE));
+            titleTextView.setText(title);
 
-        authorText = mPostsCursor.getString(mPostsCursor.getColumnIndex(DatabaseContract.PostsTable.AUTHOR));
-        authorTextView.setText(authorText);
+            bodyText = mPostsCursor.getString(mPostsCursor.getColumnIndex(DatabaseContract.PostsTable.SELFTEXT));
+            bodyTextView.setText(bodyText);
 
-        title = mPostsCursor.getString(mPostsCursor.getColumnIndex(DatabaseContract.PostsTable.TITLE));
-        titleTextView.setText(title);
+            imageURL = mPostsCursor.getString(mPostsCursor.getColumnIndex(DatabaseContract.PostsTable.IMAGELINK));
+            if (!TextUtils.isEmpty(imageURL)) {
+                Picasso.get().load(imageURL).into(thumbnail);
+            } else {
+                thumbnail.setImageResource(R.drawable.image_error);
+            }
 
-        bodyText = mPostsCursor.getString(mPostsCursor.getColumnIndex(DatabaseContract.PostsTable.SELFTEXT));
-        bodyTextView.setText(bodyText);
+            String postID = mPostsCursor.getString(mPostsCursor.getColumnIndex(DatabaseContract.PostsTable.POSTID));
+            Cursor mCommentsCursor = getAllComments(postID);
 
-        imageURL = mPostsCursor.getString(mPostsCursor.getColumnIndex(DatabaseContract.PostsTable.IMAGELINK));
-        if(!TextUtils.isEmpty(imageURL)) {
-            Picasso.get().load(imageURL).into(thumbnail);
-        } else {
-            thumbnail.setImageResource(R.drawable.image_error);
+            mAdapter = new RecyclerViewAdapter(this, mCommentsCursor);
+            mRecyclerView.setAdapter(mAdapter);
         }
-
-        String postID = mPostsCursor.getString(mPostsCursor.getColumnIndex(DatabaseContract.PostsTable.POSTID));
-        Cursor mCommentsCursor = getAllComments(postID);
-
-        mAdapter = new RecyclerViewAdapter(this, mCommentsCursor);
-        mRecyclerView.setAdapter(mAdapter);
 
     }
 
@@ -354,7 +360,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Only gets posts the user still hasn't seen
-    private Cursor getAllSeenPosts() {
+    private Cursor getAllNotSeenPosts() {
         // fazer query de todos os filmes de uma categoria
         Cursor mCursor;
         String[] selectionArgs = {"0"};
