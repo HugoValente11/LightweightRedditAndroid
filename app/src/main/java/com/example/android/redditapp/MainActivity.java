@@ -44,14 +44,11 @@ import com.example.android.redditapp.RecyclerView.RecyclerViewAdapter;
 import com.example.android.redditapp.models.Post.Child;
 import com.example.android.redditapp.models.Post.Post;
 import com.example.android.redditapp.models.PostsID.PostsID;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
-import com.transitionseverywhere.Slide;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -111,6 +108,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        // Create an ad request. Check logcat output for the hashed device ID to
+        // get test ads on a physical device. e.g.
+        // "Use AdRequest.Builder.addTestDevice("ABCDEF012345") to get test ads on this device."
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+        mAdView.loadAd(adRequest);
 
        ViewGroup root =  findViewById(R.id.mainActivityLayout);
 
@@ -246,34 +252,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void loadPost(final Context mContext, String url) {
-
-
-        StringRequest request = new StringRequest(com.android.volley.Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-                Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-
-                List<Post> posts = Arrays.asList(gson.fromJson(response, Post[].class));
-
-                addPostsToDb(posts);
-//                populateUI();
-
-            }
-        }
-                , new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(mContext, "Ups, something went wrong...", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-        ConnectionManager.getInstance(mContext).add(request);
-
-
-    }
 
     private void populateUI() {
         if (mPostsCursor == null) {
@@ -440,6 +418,35 @@ public class MainActivity extends AppCompatActivity {
         return mCursor;
     }
 
+    public void loadPost(final Context mContext, String url) {
+
+
+        StringRequest request = new StringRequest(com.android.volley.Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+
+                List<Post> posts = Arrays.asList(gson.fromJson(response, Post[].class));
+
+                addPostsToDb(posts);
+//                populateUI();
+
+            }
+        }
+                , new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(mContext, "Ups, something went wrong...", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        ConnectionManager.getInstance(mContext).add(request);
+
+
+    }
+
     public void loadPostsID(final Context mContext, String url) {
 
 
@@ -461,7 +468,7 @@ public class MainActivity extends AppCompatActivity {
                     loadPost(MainActivity.this, postURL );
 
                 }
-
+                populateUI();
             }
         }
                 , new Response.ErrorListener() {
