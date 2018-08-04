@@ -238,17 +238,17 @@ public class MainActivity extends AppCompatActivity {
 
                 List<Post> posts = Arrays.asList(gson.fromJson(response, Post[].class));
 
-                List<String> comments = new ArrayList<>();
-                Log.d("TAG", "comments size: " + posts.get(1).getData().getChildren().size());
-                for (int i = 0; i< posts.get(1).getData().getChildren().size(); i++) {
-                   String comment = posts.get(1).getData().getChildren().get(i).getData().getBody();
-                   if (! TextUtils.isEmpty(comment)) {
-                       comments.add(comment);
-                       Log.d("TAG",  "Comments after added to array list: " + comments.get(i));
-
-                   }
-                }
-                Log.d("TAG", "comments array list size: " + comments.size());
+//                List<String> comments = new ArrayList<>();
+//                Log.d("TAG", "comments size: " + posts.get(1).getData().getChildren().size());
+//                for (int i = 0; i< posts.get(1).getData().getChildren().size(); i++) {
+//                   String comment = posts.get(1).getData().getChildren().get(i).getData().getBody();
+//                   if (! TextUtils.isEmpty(comment)) {
+//                       comments.add(comment);
+//                       Log.d("TAG",  "Comments after added to array list: " + comments.get(i));
+//
+//                   }
+//                }
+//                Log.d("TAG", "comments array list size: " + comments.size());
 
 
 
@@ -340,6 +340,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (!isInDB) {
 
+                // CV is post info
                 ContentValues cv = new ContentValues();
 
                 cv.put(DatabaseContract.PostsTable.SUBREDDIT, postList.get(0).getData().getChildren().get(0).getData().getSubreddit());
@@ -349,11 +350,11 @@ public class MainActivity extends AppCompatActivity {
                 cv.put(DatabaseContract.PostsTable.SELFTEXT,  postList.get(0).getData().getChildren().get(0).getData().getSelftext());
                 cv.put(DatabaseContract.PostsTable.IMAGELINK, postList.get(0).getData().getChildren().get(0).getData().getThumbnail());
 
-                Uri uri = getContentResolver().insert(DatabaseContract.CONTENT_URI_POSTS, cv);
+                getContentResolver().insert(DatabaseContract.CONTENT_URI_POSTS, cv);
 
                 for (int i = 0; i < postList.get(1).getData().getChildren().size() - 1; i++) {
 
-
+                // CV2 is comments post info
                 ContentValues cv2 = new ContentValues();
 
                 cv2.put(DatabaseContract.CommentsTable.POSTID, postList.get(0).getData().getChildren().get(0).getData().getId());
@@ -361,10 +362,7 @@ public class MainActivity extends AppCompatActivity {
                 cv2.put(DatabaseContract.CommentsTable.COMMENT,   postList.get(1).getData().getChildren().get(i).getData().getBody());
                 cv2.put(DatabaseContract.CommentsTable.AUTHOR,    postList.get(1).getData().getChildren().get(i).getData().getAuthor());
 
-                Uri uri2 = getContentResolver().insert(DatabaseContract.CONTENT_URI_COMMENTS, cv2);
-                Log.d("Uri", "\nUri: " + uri + "\nUri2: " + uri2);
-
-
+                getContentResolver().insert(DatabaseContract.CONTENT_URI_COMMENTS, cv2);
 
                 }
             }
