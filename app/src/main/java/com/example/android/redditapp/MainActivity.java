@@ -90,6 +90,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
+         Cursor mCursor = getAllNotSeenPosts();
+         mCursor.getCount();
+         if (mCursor != null || mCursor.getPosition() != -1) {
+             mCursor.moveToFirst();
+            String title = mCursor.getString(mCursor.getColumnIndex(DatabaseContract.PostsTable.TITLE));
+            SharedPreferences.Editor editor = getSharedPreferences("Title", MODE_PRIVATE).edit();
+            editor.putString("title", title);
+            editor.apply();
+         }
         super.onPause();
     }
 
@@ -381,7 +390,6 @@ public class MainActivity extends AppCompatActivity {
     private Cursor getAllNotSeenPosts() {
         // fazer query de todos os filmes de uma categoria
         Cursor mCursor;
-        String seen = "0";
         String[] selectionArgs = new String[]{"0"};
         String selection = DatabaseContract.PostsTable.POSTSEEN +  " = ?";
         mCursor = getContentResolver().query(DatabaseContract.CONTENT_URI_POSTS, null, selection, selectionArgs, null);

@@ -86,4 +86,5 @@
     <string name="subreddit_content_description">SubReddit</string>
     <string name="author_content_description">Author</string>
     <string name="title_content_description">Title</string>
+    <string name="widget_text_content_description">Widget Text</string>
 </resources>
