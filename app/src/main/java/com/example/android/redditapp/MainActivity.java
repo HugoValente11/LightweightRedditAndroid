@@ -115,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
         constraintLayout.setOnTouchListener(new OnSwipeTouchListener(this) {
             @Override
             public void onSwipeLeft() {
-                Toast.makeText(MainActivity.this, "This is working", Toast.LENGTH_SHORT).show();
                 swipeCursor();
             }
 
@@ -133,6 +132,8 @@ public class MainActivity extends AppCompatActivity {
 
         setupAdapter();
 
+        loadPostsID(this, Constants.subRedditBase);
+
         loadPost(this, Constants.someAskRedditPost);
         loadPost(this, Constants.someRedditPost);
         loadPost(this, Constants.anotherRedditPost);
@@ -144,23 +145,18 @@ public class MainActivity extends AppCompatActivity {
 
     private void swipeCursor() {
         // Get info from cursor
-        String subreddit = mPostsCursor.getString(mPostsCursor.getColumnIndex(DatabaseContract.PostsTable.SUBREDDIT));
+        if (mPostsCursor != null) {
         String postID = mPostsCursor.getString(mPostsCursor.getColumnIndex(DatabaseContract.PostsTable.POSTID));
-        Log.d("DBDEBUG", "Delete: " + postID);
-
-
-
-        // Delete fromm posts table
-        Uri postUri = DatabaseContract.CONTENT_URI_POSTS.buildUpon()
-                .appendPath(postID).build();
-        getContentResolver().delete(postUri, null, null);
-
-        // Add to eliminated posts table
 
         ContentValues cv = new ContentValues();
+        cv.put(DatabaseContract.PostsTable.POSTSEEN, 1);
+        cv.put(DatabaseContract.PostsTable.POSTID, postID);
+        String selection = DatabaseContract.PostsTable.POSTID + " = ?";
+        String[] selectionArgs = new String[]{postID};
 
+        // Update value to know post has been seen
+        getContentResolver().update(DatabaseContract.CONTENT_URI_POSTS, cv, selection, selectionArgs);
 
-        getContentResolver().insert(DatabaseContract.CONTENT_URI_ELIMINATEDPOSTS, cv);
 
         int maximum_position = mPostsCursor.getCount();
         if (mPostsCursor.getPosition() + 1 < maximum_position) {
@@ -170,8 +166,9 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
             // Load more posts
-//            mPostsCursor.moveToFirst();
             Toast.makeText(this, "No more posts to load, maybe you should consider getting some Sun.", Toast.LENGTH_SHORT).show();
+
+        }
 
         }
 
@@ -413,7 +410,7 @@ public class MainActivity extends AppCompatActivity {
                 for (int i=0; i < posts.get(0).getData().getChildren().size(); i++) {
                    String postID =  posts.get(0).getData().getChildren().get(i).getData().getId();
                    String postURL = Constants.searchPostsBase + postID + Constants.jsonExtension;
-                    loadPostsID(MainActivity.this, postURL );
+                    loadPost(MainActivity.this, postURL );
 
                 }
 
