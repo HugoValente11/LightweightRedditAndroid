@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
     private Cursor mPostsCursor;
     private SearchView searchView;
     private String querySearchView;
+    private String currentSubreddit;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -132,11 +133,23 @@ public class MainActivity extends AppCompatActivity {
 
         setupAdapter();
 
-        populateUI();
+        Cursor mFollowingSubReddits = getAllFollowingSubreddits();
+        if (mFollowingSubReddits.getCount()== 0) {
+            Toast.makeText(this, "Add SubReddits.", Toast.LENGTH_SHORT).show();
+        } else {
+            mFollowingSubReddits.moveToFirst();
 
-        String url = Constants.searchPostsBase + "/soccer" + Constants.jsonExtension + Constants.limitTo5;
-        loadPostsID(this, url);
+            do {
+                currentSubreddit = mFollowingSubReddits.getString(mFollowingSubReddits.getColumnIndex(DatabaseContract.SubRedditsTable.SUBREDDIT));
+                Toast.makeText(this, "Subreddit: " + currentSubreddit, Toast.LENGTH_SHORT).show();
 
+//            populateUI();
+
+                String url = Constants.searchPostsBase + currentSubreddit + Constants.jsonExtension + Constants.limitTo5;
+                loadPostsID(this, url);
+            } while (mFollowingSubReddits.moveToNext());
+
+        }
     }
 
     private void swipeCursor() {
@@ -258,7 +271,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (mPostsCursor.getCount() == 0) {
             // Load new posts
-            Toast.makeText(this, "No more posts to show", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No posts to show", Toast.LENGTH_SHORT).show();
         } else if (mPostsCursor.getPosition() == -1) {
             mPostsCursor.moveToFirst();
         }
@@ -374,12 +387,26 @@ public class MainActivity extends AppCompatActivity {
         return mCursor;
     }
 
-    // Only gets posts the user still hasn't seen
+    // Gets all posts
     private Cursor getAllPosts() {
         // fazer query de todos os filmes de uma categoria
         Cursor mCursor;
 
         mCursor = getContentResolver().query(DatabaseContract.CONTENT_URI_POSTS, null, null, null, null);
+
+        String info = DatabaseUtils.dumpCursorToString(mCursor);
+        Log.d("DEBUGCURSOR", info);
+        Log.d("AllPOSTS", "All posts cursor count: " + mCursor.getCount());
+
+        return mCursor;
+    }
+
+    // Gets all posts
+    private Cursor getAllFollowingSubreddits() {
+        // fazer query de todos os filmes de uma categoria
+        Cursor mCursor;
+
+        mCursor = getContentResolver().query(DatabaseContract.CONTENT_URI_SUBREDDITS, null, null, null, null);
 
         String info = DatabaseUtils.dumpCursorToString(mCursor);
         Log.d("DEBUGCURSOR", info);
@@ -415,7 +442,9 @@ public class MainActivity extends AppCompatActivity {
 
                 for (int i=0; i < posts.getData().getChildren().size(); i++) {
                    String postID = posts.getData().getChildren().get(i).getData().getId();
-                   String postURL = Constants.searchPostsBase + "/soccer" +  Constants.commentsExtension + postID + Constants.jsonExtension;
+                    String subreddit = posts.getData().getChildren().get(i).getData().getSubreddit();
+
+                    String postURL = Constants.searchPostsBase + subreddit +  Constants.commentsExtension + postID + Constants.jsonExtension;
                    Log.d("POSTURL", postURL);
                     loadPost(MainActivity.this, postURL );
 
