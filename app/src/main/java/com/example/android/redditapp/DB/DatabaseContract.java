@@ -46,15 +46,8 @@ public class DatabaseContract {
         public static final String AUTHOR = "author";
         public static final String IMAGELINK = "imagelink";
         public static final String SELFTEXT = "selftext";
+        public static final String POSTSEEN = "postseen";
 
-    }
-
-    public abstract class EliminatedPostsTable implements BaseColumns{
-
-        public static final String TABLE_NAME = "eliminated_posts_table";
-
-        public static final String SUBREDDIT = "subreddit";
-        public static final String POSTID = "postid";
     }
 
     public abstract class CommentsTable implements BaseColumns{

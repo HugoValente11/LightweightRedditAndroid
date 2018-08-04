@@ -193,14 +193,6 @@ public class DatabaseContentProvider extends ContentProvider {
                     throw new SQLException("Couldn't insert data into " + uri);
                 }
                 break;
-            case ELIMINATED_POSTS:
-                _id = db.insert(DatabaseContract.EliminatedPostsTable.TABLE_NAME, null, contentValues);
-                if (_id > 0) {
-                    returnUri = ContentUris.withAppendedId(DatabaseContract.CONTENT_URI_ELIMINATEDPOSTS, _id);
-                } else {
-                    throw new SQLException("Couldn't insert data into " + uri);
-                }
-                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -261,6 +253,23 @@ public class DatabaseContentProvider extends ContentProvider {
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String selection, @Nullable String[] selectionArguments) {
-        return 0;
-    }
+        // Get writable access
+        SQLiteDatabase db = new DatabaseOpenHelper(getContext()).getWritableDatabase();
+        int rows;
+
+        switch(sUriMatcher.match(uri)){
+            case POSTS:
+                rows = db.update(DatabaseContract.PostsTable.TABLE_NAME, contentValues, selection, selectionArguments);
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
+
+        if(rows != 0){
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        return rows;
+
+        }
 }

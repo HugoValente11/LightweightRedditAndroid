@@ -49,14 +49,8 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
             DatabaseContract.PostsTable.IMAGELINK + TEXT_TYPE + COMMA +
             DatabaseContract.PostsTable.AUTHOR + TEXT_TYPE + COMMA +
             DatabaseContract.PostsTable.SELFTEXT + TEXT_TYPE + COMMA +
+            DatabaseContract.PostsTable.POSTSEEN + INTEGER_TYPE + DEFAULT_0 + COMMA +
             "PRIMARY KEY (" + DatabaseContract.PostsTable.POSTID + "))";
-
-    // Create ELIMINATED POST TABLE SENTENCE
-    private static final String CREATE_ELIMINATED_POST_TABLE = "CREATE TABLE " +
-            DatabaseContract.EliminatedPostsTable.TABLE_NAME + " (" +
-            DatabaseContract.EliminatedPostsTable.POSTID + TEXT_TYPE + COMMA +
-            DatabaseContract.EliminatedPostsTable.SUBREDDIT + TEXT_TYPE + COMMA +
-            "PRIMARY KEY (" + DatabaseContract.EliminatedPostsTable.POSTID + "))";
 
 
     // Create COMMENT TABLE SENTENCE
@@ -71,7 +65,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
             ") REFERENCES " + DatabaseContract.PostsTable.TABLE_NAME +
             " (" + DatabaseContract.PostsTable.POSTID + ") )";
 
-    // Create POST TABLE SENTENCE
+    // Create SUBREDITS TABLE SENTENCE
     private static final String CREATE_SUBREDDITS_TABLE = "CREATE TABLE " +
             DatabaseContract.SubRedditsTable.TABLE_NAME + " (" +
             DatabaseContract.SubRedditsTable._ID + " INTEGER PRIMARY KEY, " +
@@ -88,7 +82,6 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_POST_TABLE);
         sqLiteDatabase.execSQL(CREATE_COMMENT_TABLE);
         sqLiteDatabase.execSQL(CREATE_SUBREDDITS_TABLE);
-        sqLiteDatabase.execSQL(CREATE_ELIMINATED_POST_TABLE);
 
     }
 

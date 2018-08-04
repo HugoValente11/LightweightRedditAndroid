@@ -149,8 +149,6 @@ public class MainActivity extends AppCompatActivity {
         Log.d("DBDEBUG", "Delete: " + postID);
 
 
-        String id = mPostsCursor.getString(mPostsCursor.getColumnIndex(DatabaseContract.PostsTable._ID));
-
 
         // Delete fromm posts table
         Uri postUri = DatabaseContract.CONTENT_URI_POSTS.buildUpon()
@@ -161,8 +159,6 @@ public class MainActivity extends AppCompatActivity {
 
         ContentValues cv = new ContentValues();
 
-        cv.put(DatabaseContract.EliminatedPostsTable.SUBREDDIT, subreddit);
-        cv.put(DatabaseContract.EliminatedPostsTable.POSTID,    postID);
 
         getContentResolver().insert(DatabaseContract.CONTENT_URI_ELIMINATEDPOSTS, cv);
 
