@@ -91,8 +91,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
          Cursor mCursor = getAllNotSeenPosts();
-         mCursor.getCount();
-         if (mCursor != null || mCursor.getPosition() != -1) {
+         Log.d("CURSORUNIQUE", "" +  mCursor.getCount());
+         if (mCursor != null && mCursor.getCount() != 0 && mCursor.getPosition() != -1) {
              mCursor.moveToFirst();
             String title = mCursor.getString(mCursor.getColumnIndex(DatabaseContract.PostsTable.TITLE));
             SharedPreferences.Editor editor = getSharedPreferences("Title", MODE_PRIVATE).edit();
