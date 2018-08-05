@@ -87,4 +87,5 @@
     <string name="author_content_description">Author</string>
     <string name="title_content_description">Title</string>
     <string name="widget_text_content_description">Widget Text</string>
+    <string name="unsubscribe_from_subreddit_content_description">Unsubscribe from Subreddit</string>
 </resources>

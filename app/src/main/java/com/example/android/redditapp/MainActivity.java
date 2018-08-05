@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSwipeLeft() {
                 android.transition.Slide slide = new android.transition.Slide();
-                slide.setSlideEdge(Gravity.RIGHT);
+                slide.setSlideEdge(Gravity.END);
                 TransitionManager.beginDelayedTransition(root, slide);
                 swipeCursor();
             }

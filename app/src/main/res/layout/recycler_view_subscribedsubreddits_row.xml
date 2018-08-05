@@ -18,6 +18,7 @@
         tools:text="SubReddit" />
 
     <ImageView
+        android:contentDescription="@string/unsubscribe_from_subreddit_content_description"
         android:id="@+id/unsubscribeSubredditimageView"
         android:layout_width="17dp"
         android:layout_height="29dp"
