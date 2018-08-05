@@ -195,7 +195,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void swipeCursor() {
         // Get info from cursor
-        if (mPostsCursor != null) {
+        if (mPostsCursor != null && mPostsCursor.getCount()!= 0 ) {
+
         String postID = mPostsCursor.getString(mPostsCursor.getColumnIndex(DatabaseContract.PostsTable.POSTID));
 
         ContentValues cv = new ContentValues();
