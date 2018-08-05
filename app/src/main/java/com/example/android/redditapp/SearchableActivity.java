@@ -98,8 +98,7 @@ public class SearchableActivity extends AppCompatActivity implements SearchClick
             String selectedSuggestionRowId = intent.getDataString();
             //execution comes here when an item is selected from search suggestions
             //you can continue from here with user selected search item
-            Toast.makeText(this, "selected search suggestion " + selectedSuggestionRowId,
-                    Toast.LENGTH_SHORT).show();
+
         }
 
 
@@ -134,7 +133,7 @@ public class SearchableActivity extends AppCompatActivity implements SearchClick
                 , new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(SearchableActivity.this, "Please check your Internet connection.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SearchableActivity.this, getString(R.string.volley_error), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -164,7 +163,7 @@ public class SearchableActivity extends AppCompatActivity implements SearchClick
                     subredditFromCursor = mCursor.getString(mCursor.getColumnIndex(DatabaseContract.SubRedditsTable.SUBREDDIT));
                     Log.d("THIS", "thing" + subreddit);
                     if (subredditFromCursor.equals(subreddit)) {
-                        Toast.makeText(this, "Subreddit already added.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getString(R.string.already_added_subredits), Toast.LENGTH_SHORT).show();
                         isInDB = true;
                     }
                 }while ( mCursor.moveToNext() );
@@ -179,7 +178,7 @@ public class SearchableActivity extends AppCompatActivity implements SearchClick
 
 
                 Uri uri = getContentResolver().insert(DatabaseContract.CONTENT_URI_SUBREDDITS, cv);
-                Toast.makeText(this, "Subreddit successfully added.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.added_subredits), Toast.LENGTH_SHORT).show();
             }
     }
 

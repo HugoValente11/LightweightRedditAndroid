@@ -73,7 +73,7 @@ public class SettingsSubredditsActivity extends AppCompatActivity
         Cursor cursor = getContentResolver().query(subredditUri, null, null, null, null);
         cursor.moveToFirst();
         String subredditTitle = cursor.getString(cursor.getColumnIndex(DatabaseContract.SubRedditsTable.SUBREDDIT));
-        Toast.makeText(this, "Unsubscribed " + subredditTitle, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.unsubscribe_from_subreddit) + subredditTitle, Toast.LENGTH_SHORT).show();
         getContentResolver().delete(subredditUri, null, null);
         getSupportLoaderManager().restartLoader(TASK_LOADER_ID, null, this);
 

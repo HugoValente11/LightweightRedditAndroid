@@ -176,13 +176,12 @@ public class MainActivity extends AppCompatActivity {
 
         Cursor mFollowingSubReddits = getAllFollowingSubreddits();
         if (mFollowingSubReddits.getCount()== 0) {
-            Toast.makeText(this, "Add SubReddits.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.add_subredits_string), Toast.LENGTH_SHORT).show();
         } else {
             mFollowingSubReddits.moveToFirst();
 
             do {
                String currentSubreddit = mFollowingSubReddits.getString(mFollowingSubReddits.getColumnIndex(DatabaseContract.SubRedditsTable.SUBREDDIT));
-                Toast.makeText(this, "Subreddit: " + currentSubreddit, Toast.LENGTH_SHORT).show();
 
 //            populateUI();
 
@@ -217,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
             // Load more posts
-            Toast.makeText(this, "No more posts to load, maybe you should consider getting some Sun.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.no_more_posts_string), Toast.LENGTH_SHORT).show();
 
         }
 
@@ -285,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (mPostsCursor.getCount() == 0) {
             // Load new posts
-            Toast.makeText(this, "No posts to show", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "No posts to show", Toast.LENGTH_SHORT).show();
         } else if (mPostsCursor.getPosition() == -1) {
             mPostsCursor.moveToFirst();
         }
@@ -461,7 +460,7 @@ public class MainActivity extends AppCompatActivity {
                 , new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(mContext, "Ups, something went wrong...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, getString(R.string.volley_error), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -498,7 +497,7 @@ public class MainActivity extends AppCompatActivity {
                 , new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(mContext, "Ups, something went wrong...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, getString(R.string.volley_error), Toast.LENGTH_SHORT).show();
             }
         });
 

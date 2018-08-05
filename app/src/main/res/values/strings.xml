@@ -3,6 +3,15 @@
 
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
 
+    <string name="add_subredits_string">Add SubReddits.</string>
+    <string name="no_more_posts_string">No more posts to load, maybe you should consider getting some Sun.</string>
+    <string name="volley_error">Ups, something went wrong....</string>
+    <string name="added_subredits">Subreddit successfully added.</string>
+    <string name="already_added_subredits">Subreddit already added.</string>
+    <string name="unsubscribe_from_subreddit">Unsubscribed </string>
+
+
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
