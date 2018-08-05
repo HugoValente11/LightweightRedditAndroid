@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#09C"
+    android:background="@color/colorPrimary"
     android:id="@+id/relativeLayoutWidget"
     android:padding="8dp">
 
@@ -13,7 +13,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_margin="8dp"
-        android:background="#09C"
+        android:background="@color/colorPrimary"
         android:contentDescription="@string/widget_text_content_description"
         android:textColor="#ffffff"
         android:textSize="12sp"

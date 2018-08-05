@@ -1,6 +1,8 @@
 package com.example.android.redditapp;
 
 import android.app.SearchManager;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -30,6 +32,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RemoteViews;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +44,7 @@ import com.example.android.redditapp.Connection.ConnectionManager;
 import com.example.android.redditapp.Connection.Request;
 import com.example.android.redditapp.DB.DatabaseContract;
 import com.example.android.redditapp.RecyclerView.RecyclerViewAdapter;
+import com.example.android.redditapp.Widget.PostWidget;
 import com.example.android.redditapp.models.Post.Child;
 import com.example.android.redditapp.models.Post.Post;
 import com.example.android.redditapp.models.PostsID.PostsID;
@@ -90,15 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-         Cursor mCursor = getAllNotSeenPosts();
-         Log.d("CURSORUNIQUE", "" +  mCursor.getCount());
-         if (mCursor != null && mCursor.getCount() != 0 ) {
-             mCursor.moveToFirst();
-            String title = mCursor.getString(mCursor.getColumnIndex(DatabaseContract.PostsTable.TITLE));
-            SharedPreferences.Editor editor = getSharedPreferences("Title", MODE_PRIVATE).edit();
-            editor.putString("title", title);
-            editor.apply();
-         }
+       updateWidget();
         super.onPause();
     }
 
@@ -504,6 +500,32 @@ public class MainActivity extends AppCompatActivity {
 
 
         ConnectionManager.getInstance(mContext).add(request);
+
+
+    }
+
+    private void updateWidget() {
+//        https://stackoverflow.com/questions/3455123/programmatically-update-widget-from-activity-service-receiver
+
+        Cursor mCursor = getAllNotSeenPosts();
+        Log.d("CURSORUNIQUE", "" +  mCursor.getCount());
+        if (mCursor != null && mCursor.getCount() != 0 ) {
+            mCursor.moveToFirst();
+            String title = mCursor.getString(mCursor.getColumnIndex(DatabaseContract.PostsTable.TITLE));
+            SharedPreferences.Editor editor = getSharedPreferences("Title", MODE_PRIVATE).edit();
+            editor.putString("title", title);
+            editor.apply();
+
+            Context context = this;
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+            RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.post_widget);
+            ComponentName thisWidget = new ComponentName(context, PostWidget.class);
+
+
+            // Set Text
+            remoteViews.setTextViewText(R.id.appwidget_text, title);
+            appWidgetManager.updateAppWidget(thisWidget, remoteViews);
+        }
 
 
     }
