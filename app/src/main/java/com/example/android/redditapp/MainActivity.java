@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.constraint.ConstraintLayout;
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
     private Cursor mPostsCursor;
     private SearchView searchView;
     private String querySearchView;
+    private Cursor mFollowingSubReddits;
 
 
     @Override
@@ -170,23 +172,16 @@ public class MainActivity extends AppCompatActivity {
 
         setupAdapter();
 
-        Cursor mFollowingSubReddits = getAllFollowingSubreddits();
+        mFollowingSubReddits = getAllFollowingSubreddits();
         if (mFollowingSubReddits.getCount()== 0) {
             Toast.makeText(this, getString(R.string.add_subredits_string), Toast.LENGTH_SHORT).show();
         } else {
-            mFollowingSubReddits.moveToFirst();
-
-            do {
-               String currentSubreddit = mFollowingSubReddits.getString(mFollowingSubReddits.getColumnIndex(DatabaseContract.SubRedditsTable.SUBREDDIT));
-
-//            populateUI();
-
-                String url = Constants.searchPostsBase + currentSubreddit + Constants.jsonExtension + Constants.limitTo5;
-                loadPostsID(this, url);
-            } while (mFollowingSubReddits.moveToNext());
+           new DownloadPostsTask().execute();
 
         }
-        populateUI();
+
+//        populateUI();
+//        new DownloadPostsTask().execute();
     }
 
     private void swipeCursor() {
@@ -529,5 +524,33 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    public class DownloadPostsTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            populateUI();
+            super.onPostExecute(aVoid);
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+                mFollowingSubReddits.moveToFirst();
+
+                do {
+                    String currentSubreddit = mFollowingSubReddits.getString(mFollowingSubReddits.getColumnIndex(DatabaseContract.SubRedditsTable.SUBREDDIT));
+
+//            populateUI();
+                    Context context = getApplicationContext();
+
+                    String url = Constants.searchPostsBase + currentSubreddit + Constants.jsonExtension + Constants.limitTo5;
+                    loadPostsID(context, url);
+                } while (mFollowingSubReddits.moveToNext());
+                return null;
+            }
+
+    }
+
+
 
 }
