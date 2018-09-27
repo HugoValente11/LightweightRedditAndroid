@@ -44,22 +44,6 @@ public class PostWidgetService extends IntentService {
         Log.d("TAG10", "last post clicked: " + title);
 
 
-        // Build string to show in widget
-//        StringBuilder stringBuilder = new StringBuilder();
-//        Gson gson = new Gson();
-//        List<GsonHandler> recipes = Arrays.asList(gson.fromJson(recipe, GsonHandler[].class));
-//        List<Ingredient> ingredients = recipes.get(lastRecipeClicked).getIngredients();
-//
-//        String recipeName = recipes.get(lastRecipeClicked).getName();
-//
-//        stringBuilder.append(recipeName + ":\n");
-//
-//        for (Ingredient ingredient: ingredients) {
-//            String ingredientName = ingredient.getIngredient();
-//            stringBuilder.append(ingredientName + "\n");
-//        }
-
-
         //TODO change ingredientsString to post title and selftext
 //        String ingredientsString = stringBuilder.toString();
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);

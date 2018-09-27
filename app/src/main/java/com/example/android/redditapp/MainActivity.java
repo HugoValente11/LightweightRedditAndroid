@@ -325,17 +325,13 @@ public class MainActivity extends AppCompatActivity {
             if(((mCursor != null) && (mCursor.getCount() > 0))) {
 
                 mCursor.moveToFirst();
-                Log.d("FIRSTPOSITION", "Position: " + mCursor.getPosition());
-                String info = DatabaseUtils.dumpCursorToString(mCursor);
-                Log.d("CHECKINGCURSOR", info);
 
-                String postIDFromCursor = mCursor.getString(mCursor.getColumnIndex(DatabaseContract.PostsTable.POSTID));
+
+                String postIDFromCursor;
                 String postIDFromPostList = postList.get(0).getData().getChildren().get(0).getData().getId();
 
                 do{
-                    Log.d("SECONDPOSITION", "Position: " + mCursor.getPosition());
                     postIDFromCursor = mCursor.getString(mCursor.getColumnIndex(DatabaseContract.PostsTable.POSTID));
-                    Log.d("THIS", "thing" + postIDFromCursor);
                     if (postIDFromPostList.equals(postIDFromCursor)) {
                         Log.d("I'm alive!", "... sort of. beep boop.");
                         isInDB = true;
@@ -385,10 +381,6 @@ public class MainActivity extends AppCompatActivity {
         String selection = DatabaseContract.PostsTable.POSTSEEN +  " = ?";
         mCursor = getContentResolver().query(DatabaseContract.CONTENT_URI_POSTS, null, selection, selectionArgs, null);
 
-        String info = DatabaseUtils.dumpCursorToString(mCursor);
-        Log.d("DEBUGCURSOR", info);
-        Log.d("AllPOSTS", "All posts cursor count: " + mCursor.getCount());
-
         return mCursor;
     }
 
@@ -396,12 +388,7 @@ public class MainActivity extends AppCompatActivity {
     private Cursor getAllPosts() {
         // fazer query de todos os filmes de uma categoria
         Cursor mCursor;
-
         mCursor = getContentResolver().query(DatabaseContract.CONTENT_URI_POSTS, null, null, null, null);
-
-        String info = DatabaseUtils.dumpCursorToString(mCursor);
-        Log.d("DEBUGCURSOR", info);
-        Log.d("AllPOSTS", "All posts cursor count: " + mCursor.getCount());
 
         return mCursor;
     }
@@ -410,12 +397,7 @@ public class MainActivity extends AppCompatActivity {
     private Cursor getAllFollowingSubreddits() {
         // fazer query de todos os filmes de uma categoria
         Cursor mCursor;
-
         mCursor = getContentResolver().query(DatabaseContract.CONTENT_URI_SUBREDDITS, null, null, null, null);
-
-        String info = DatabaseUtils.dumpCursorToString(mCursor);
-        Log.d("DEBUGCURSOR", info);
-        Log.d("AllPOSTS", "All posts cursor count: " + mCursor.getCount());
 
         return mCursor;
     }
@@ -426,9 +408,6 @@ public class MainActivity extends AppCompatActivity {
         String[] selectionArgs = {postID};
         String selection = DatabaseContract.CommentsTable.POSTID + " = ?";
         mCursor = getContentResolver().query(DatabaseContract.CONTENT_URI_COMMENTS, null, selection, selectionArgs, null);
-
-        String info = DatabaseUtils.dumpCursorToString(mCursor);
-        Log.d("DEBUGCURSOR", info);
 
         return mCursor;
     }
@@ -479,7 +458,6 @@ public class MainActivity extends AppCompatActivity {
                     String subreddit = posts.getData().getChildren().get(i).getData().getSubreddit();
 
                     String postURL = Constants.searchPostsBase + subreddit +  Constants.commentsExtension + postID + Constants.jsonExtension;
-                   Log.d("POSTURL", postURL);
                     loadPost(MainActivity.this, postURL );
 
                 }
@@ -503,7 +481,6 @@ public class MainActivity extends AppCompatActivity {
 //        https://stackoverflow.com/questions/3455123/programmatically-update-widget-from-activity-service-receiver
 
         Cursor mCursor = getAllNotSeenPosts();
-        Log.d("CURSORUNIQUE", "" +  mCursor.getCount());
         if (mCursor != null && mCursor.getCount() != 0 ) {
             mCursor.moveToFirst();
             String title = mCursor.getString(mCursor.getColumnIndex(DatabaseContract.PostsTable.TITLE));
