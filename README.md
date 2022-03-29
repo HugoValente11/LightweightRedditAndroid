@@ -1,9 +1,6 @@
-# RedditAppUdacity
-Final project of Nanodegree making a RedditApp
-
 ## Project Overview
 
-In this project, you will create an app of your own authorship that must check the following rubric:
+Functionalities included
 - [x] App integrates a third-party library.
 
 - [x] App validates all input from servers and users. If data does not exist or is in the wrong format, the app logs this fact and does not crash.
